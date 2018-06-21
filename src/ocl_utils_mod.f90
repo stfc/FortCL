@@ -5,6 +5,13 @@ module ocl_utils_mod
 
   integer, parameter :: CL_UTIL_STR_LEN = 64
 
+  !> This interface lets us over-load read_buffer to take Fortran
+  !! arrays of differing ranks.
+  !! \TODO support more than just 2D arrays
+  interface read_buffer
+     module procedure read_buffer2d
+  end interface read_buffer
+
 contains
   
   subroutine init_device(device, version_str, context)
@@ -281,9 +288,24 @@ contains
 
   !=====================================================
 
+  !> Read a buffer for a 2D Fortran array from an OpenCL device.
+  !! Only necessary to hide the need to get a pointer to the start
+  !! of the array.
+  subroutine read_buffer2d(queue, device_ptr, local_array, nelem)
+    use ocl_params_mod, only: wp
+    integer(c_intptr_t), intent(in) :: queue, device_ptr
+    real(kind=wp), target, intent(in) :: local_array(:,:)
+    integer(8), intent(in) :: nelem
+    ! Locals
+    integer(8) :: nbytes
+    ! Pass the first element of the array that will be filled with
+    ! data from the buffer on the OpenCL device
+    call read_buffer_ptr(queue, device_ptr, local_array(1,1), nelem)
+  end subroutine read_buffer2d
+
   !> Read a buffer (containing 64-bit floats) from an OpenCL device. Call
   !! blocks until read is complete.
-  subroutine read_buffer(queue, device_ptr, local_array, nelem)
+  subroutine read_buffer_ptr(queue, device_ptr, local_array, nelem)
     use ocl_params_mod, only: wp
     integer(c_intptr_t), intent(in) :: queue, device_ptr
     real(kind=wp), target, intent(in) :: local_array
@@ -304,7 +326,7 @@ contains
     ierr = clWaitForEvents(1, C_LOC(event))
     call check_status('clWaitForEvents', ierr)
 
-  end subroutine read_buffer
+  end subroutine read_buffer_ptr
 
   !=====================================================
 
