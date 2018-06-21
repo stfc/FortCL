@@ -134,7 +134,7 @@ contains
 
   !===================================================
 
-  function get_kernel_index(name) result index
+  function get_kernel_index(name) result(index)
     integer :: index
     character(len=*), intent(in) :: name
     integer :: ik
