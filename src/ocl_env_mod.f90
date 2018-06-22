@@ -170,6 +170,7 @@ contains
   !===================================================
 
   subroutine ocl_release()
+    use ocl_utils_mod, only: release_kernel, release_queues, release_context
     integer :: i
 
     do i=1, cl_num_kernels
