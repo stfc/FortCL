@@ -37,7 +37,7 @@ contains
 
   !> Initialise the GOcean environment
   subroutine ocl_env_init()
-    use ocl_utils_mod, only: init_device
+    use ocl_utils_mod, only: init_device, init_cmd_queues
     implicit none
     integer :: ierr
 
@@ -170,14 +170,15 @@ contains
   !===================================================
 
   subroutine ocl_release()
-    use ocl_utils_mod, only: release_kernel, release_queues, release_context
+    use ocl_utils_mod, only: release_kernel, release_cmd_queues, &
+                             release_context
     integer :: i
 
     do i=1, cl_num_kernels
        call release_kernel(cl_kernels(i))
     end do
 
-    call release_queues(cl_num_queues, cl_cmd_queues)
+    call release_cmd_queues(cl_num_queues, cl_cmd_queues)
 
     call release_context(cl_context)
 
