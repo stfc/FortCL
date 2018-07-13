@@ -28,6 +28,7 @@ contains
        platform_ids(:), device_ids(:)
     character(len=1,kind=c_char), allocatable, target :: device_name(:)
 
+    num_platforms = 0
     ierr = clGetPlatformIDs(0, C_NULL_PTR, num_platforms)
     call check_status('clGetPlatformIDs', ierr)
     if (num_platforms < 1)then
