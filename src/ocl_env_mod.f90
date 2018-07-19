@@ -30,6 +30,7 @@ module ocl_env_mod
 
   public ocl_env_init
   public cl_context, cl_device, get_num_cmd_queues, get_cmd_queues
+  public add_kernels, get_kernel_by_name
 
 contains
 
