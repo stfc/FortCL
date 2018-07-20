@@ -1,5 +1,5 @@
 !> Module containing state and utilities for managing OpenCL device
-module ocl_env_mod
+module fortcl
   use iso_c_binding, only: c_intptr_t, c_int32_t, c_int64_t, c_size_t
   use ocl_utils_mod, only: CL_UTIL_STR_LEN, init_device
   use ocl_params_mod
@@ -200,4 +200,4 @@ contains
 
   end subroutine ocl_release
 
-end module ocl_env_mod
+end module fortcl

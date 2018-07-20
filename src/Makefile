@@ -1,8 +1,8 @@
-# Makefile for OpenCL utility modules.
+# Makefile for FortCL.
 
 # We don't include clfortran.o in the list of objects
 # because we don't want it in the final archive file.
-OBJECTS = ocl_params_mod.o ocl_utils_mod.o ocl_env_mod.o
+OBJECTS = ocl_params_mod.o ocl_utils_mod.o FortCL.o
 LIB = libFortCL.a
 
 all: ${LIB}
