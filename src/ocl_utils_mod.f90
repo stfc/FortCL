@@ -217,7 +217,7 @@ contains
     c_kernel_name(irec+1) = C_NULL_CHAR
 
     kernel = clCreateKernel(prog, C_LOC(c_kernel_name), irec)
-    call check_status('clCreateKernel', irec)
+    call check_status('clCreateKernel: '//TRIM(kernel_name), irec)
 
   end function get_kernel
 

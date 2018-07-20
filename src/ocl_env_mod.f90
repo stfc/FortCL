@@ -1,6 +1,6 @@
 !> Module containing state and utilities for managing OpenCL device
 module ocl_env_mod
-  use iso_c_binding, only: c_intptr_t
+  use iso_c_binding, only: c_intptr_t, c_int32_t, c_int64_t, c_size_t
   use ocl_utils_mod, only: CL_UTIL_STR_LEN, init_device
   use ocl_params_mod
   implicit none
@@ -30,7 +30,7 @@ module ocl_env_mod
 
   public ocl_env_init
   public cl_context, cl_device, get_num_cmd_queues, get_cmd_queues
-  public add_kernels, get_kernel_by_name
+  public create_buffer, add_kernels, get_kernel_by_name
 
 contains
 
@@ -102,7 +102,8 @@ contains
        if(get_kernel_index(kernel_names(ik)) /= 0)cycle
        new_kern_count = new_kern_count + 1
        cl_kernels(cl_num_kernels+new_kern_count) = get_kernel(prog, &
-                                                              kernel_names(ik))
+            kernel_names(ik))
+       cl_kernel_names(ik) = kernel_names(ik)
     end do
     cl_num_kernels = cl_num_kernels + new_kern_count
 
@@ -145,6 +146,7 @@ contains
     !> \TODO is there a better way to do this that reduces the need for
     !! string comparisons?
     do ik = 1, cl_num_kernels
+       write(*,*) "kernel name: ", cl_kernel_names(ik)
        if(name == cl_kernel_names(ik))then
           ! We can't just return out of this loop because this is a
           ! function
@@ -167,6 +169,19 @@ contains
     integer(c_intptr_t), pointer :: queues(:)
     queues => cl_cmd_queues
   end function get_cmd_queues
+
+  !===================================================
+
+  !> Create a buffer in our existing OpenCL context
+  function create_buffer(access, nbytes) result(buffer)
+    use ocl_utils_mod, only: makebuff => create_buffer
+    integer(c_int64_t), intent(in) :: access
+    integer(c_size_t), intent(in) :: nbytes
+    integer(c_intptr_t), target :: buffer
+
+    buffer = makebuff(cl_context, access, nbytes)
+
+  end function create_buffer
 
   !===================================================
 
