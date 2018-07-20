@@ -295,7 +295,7 @@ contains
   subroutine read_buffer2d(queue, device_ptr, local_array, nelem)
     use ocl_params_mod, only: wp
     integer(c_intptr_t), intent(in) :: queue, device_ptr
-    real(kind=wp), target, intent(in) :: local_array(:,:)
+    real(kind=wp), target, intent(inout) :: local_array(:,:)
     integer(8), intent(in) :: nelem
     ! Locals
     integer(8) :: nbytes
