@@ -30,7 +30,7 @@ module fortcl
 
   public ocl_env_init
   public cl_context, cl_device, get_num_cmd_queues, get_cmd_queues
-  public create_buffer, add_kernels, get_kernel_by_name
+  public create_rw_buffer, add_kernels, get_kernel_by_name, read_buffer
 
 contains
 
@@ -172,17 +172,28 @@ contains
 
   !===================================================
 
-  !> Create a buffer in our existing OpenCL context
-  function create_buffer(access, nbytes) result(buffer)
+  !> Create a read-write buffer in our existing OpenCL context
+  function create_rw_buffer(nbytes) result(buffer)
+    use clfortran, only: CL_MEM_READ_WRITE
     use ocl_utils_mod, only: makebuff => create_buffer
-    integer(c_int64_t), intent(in) :: access
     integer(c_size_t), intent(in) :: nbytes
     integer(c_intptr_t), target :: buffer
 
-    buffer = makebuff(cl_context, access, nbytes)
+    buffer = makebuff(cl_context, CL_MEM_READ_WRITE, nbytes)
 
-  end function create_buffer
+  end function create_rw_buffer
+  
+  !===================================================
 
+  subroutine read_buffer(device, host, nelem)
+    use ocl_utils_mod, only: read_buff => read_buffer
+    integer(kind=c_intptr_t), intent(in) :: device
+    ! \todo somehow ensure that the kind is correct
+    real(kind=wp), intent(inout), target :: host(:,:)
+    integer(8), intent(in) :: nelem
+    call read_buff(cl_cmd_queues(1), device, host, nelem)
+  end subroutine read_buffer
+  
   !===================================================
 
   subroutine ocl_release()
