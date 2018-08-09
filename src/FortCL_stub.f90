@@ -32,7 +32,6 @@ contains
 
   subroutine add_kernels(nkernels, kernel_names, filename)
     use iso_c_binding, only: c_intptr_t
-    use ocl_utils_mod, only: get_program, get_kernel, release_program
     integer, intent(in) :: nkernels
     character(len=*), intent(in) :: kernel_names(nkernels)
     character(len=*), intent(in), optional :: filename
