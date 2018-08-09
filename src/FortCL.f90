@@ -72,7 +72,7 @@ contains
     character(len=*), intent(in) :: kernel_names(nkernels)
     character(len=*), intent(in), optional :: filename
     ! Locals
-    integer :: ik, ierr, new_kern_count
+    integer :: ik, new_kern_count
     integer(c_intptr_t), target :: prog
     character(len=300) :: lfilename
 
@@ -118,13 +118,11 @@ contains
     integer(c_intptr_t), target :: kern
     character(len=*), intent(in) :: name
     ! Locals
-    integer :: ik, match
-    character(len=256) :: msg
+    integer :: match
 
     match = get_kernel_index(name)
 
     if(match == 0)then
-       !> \TODO add check that we don't go out of bounds when writing to msg
        write(*, "('get_kernel_by_name: no kernel with name ',(A),' found')")&
             name
        stop

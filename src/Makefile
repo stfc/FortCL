@@ -7,6 +7,11 @@ LIB = libFortCL.a
 
 all: ${LIB}
 
+# Target to build the library using just stub interfaces so as
+# to avoid any actual dependence on an OpenCL installation.
+stub: ocl_params_mod.o FortCL_stub.o
+	${AR} ${ARFLAGS} ${LIB} ocl_params_mod.o FortCL_stub.o
+
 ${LIB}: clfortran ${OBJECTS}
 	${AR} ${ARFLAGS} ${LIB} ${OBJECTS}
 
