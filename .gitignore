@@ -41,6 +41,7 @@
 *.su
 *.idb
 *.pdb
+gnu_opt_report.txt
 
 # Kernel Module Compile Results
 *.mod*

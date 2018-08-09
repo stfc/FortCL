@@ -28,6 +28,7 @@ contains
        platform_ids(:), device_ids(:)
     character(len=1,kind=c_char), allocatable, target :: device_name(:)
 
+    num_platforms = 0
     ierr = clGetPlatformIDs(0, C_NULL_PTR, num_platforms)
     call check_status('clGetPlatformIDs', ierr)
     if (num_platforms < 1)then
@@ -216,7 +217,7 @@ contains
     c_kernel_name(irec+1) = C_NULL_CHAR
 
     kernel = clCreateKernel(prog, C_LOC(c_kernel_name), irec)
-    call check_status('clCreateKernel', irec)
+    call check_status('clCreateKernel: '//TRIM(kernel_name), irec)
 
   end function get_kernel
 
@@ -294,7 +295,7 @@ contains
   subroutine read_buffer2d(queue, device_ptr, local_array, nelem)
     use ocl_params_mod, only: wp
     integer(c_intptr_t), intent(in) :: queue, device_ptr
-    real(kind=wp), target, intent(in) :: local_array(:,:)
+    real(kind=wp), target, intent(inout) :: local_array(:,:)
     integer(8), intent(in) :: nelem
     ! Locals
     integer(8) :: nbytes
