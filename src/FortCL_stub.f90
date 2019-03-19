@@ -93,3 +93,18 @@ contains
   end subroutine ocl_release
 
 end module fortcl
+
+! ==============================================================
+! PSyclone als uses the check_status function of ocl_utils_mod.
+! So provide a stub implementation in a separate module as well:
+module ocl_utils_mod
+
+  contains
+
+  subroutine check_status(text, ierr)
+    implicit none
+    character(len=*), intent(in) :: text
+    integer, intent(in) :: ierr
+  end subroutine check_status
+
+end module ocl_utils_mod
