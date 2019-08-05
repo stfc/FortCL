@@ -14,11 +14,11 @@ program vadd
   use iso_c_binding
   implicit none
 
-  integer, parameter :: N = 100000
+  integer, parameter :: N = 100
   integer(c_intptr_t), target :: deviceA, deviceB, deviceC
   integer(c_intptr_t), target :: vaddkernel
   integer(c_intptr_t), pointer :: cmd_queues(:)
-  integer(c_size_t), target :: write_event
+  integer(c_size_t), target :: globalsize(1) = (/N/)
   real, dimension(N), target :: hostA, hostB, hostC, AfromDevice
 
   integer(c_size_t) :: arraysize = c_sizeof(hostA)
@@ -37,6 +37,11 @@ program vadd
   call ocl_env_init()
   cmd_queues => get_cmd_queues()
 
+  ! Allocate read-write buffers on the device
+  deviceA = create_rw_buffer(arraysize)
+  deviceB = create_rw_buffer(arraysize)
+  deviceC = create_rw_buffer(arraysize)
+
   ! Load a kernel (expects pre-compiled kernels)
   call add_kernels(1, "vadd", FILENAME)
   vaddkernel = get_kernel_by_name("vadd")
@@ -47,24 +52,30 @@ program vadd
   ierr = clSetKernelArg(vaddkernel, 2, C_SIZEOF(deviceA), C_LOC(deviceA))
   call check_status('clSetKernelArg: arg 3 of vadd', ierr)
 
-  ! Allocate read-write buffers on the device
-  deviceA = create_rw_buffer(arraysize)
-  deviceB = create_rw_buffer(arraysize)
-  deviceC = create_rw_buffer(arraysize)
-
   ! Copy B and C to the device
   ierr = clEnqueueWriteBuffer(cmd_queues(1), deviceB, CL_TRUE, zero, &
-        arraysize, C_LOC(hostB), 0, C_NULL_PTR, C_LOC(write_event))
+        arraysize, C_LOC(hostB), 0, C_NULL_PTR, C_NULL_PTR)
   call check_status('enqueue write buffer B', ierr)
   ierr = clEnqueueWriteBuffer(cmd_queues(1), deviceC, CL_TRUE, zero, &
-        arraysize, C_LOC(hostC), 0, C_NULL_PTR, C_LOC(write_event))
+       arraysize, C_LOC(hostC), 0, C_NULL_PTR, C_NULL_PTR)
   call check_status('enqueue write buffer C', ierr)
+  ierr = clFinish(cmd_queues(1))
+  call check_status('clFinish', ierr)
 
 
   ! Execute kernel
+   ierr = clEnqueueNDRangeKernel(cmd_queues(1), vaddkernel, 1, &
+      C_NULL_PTR, C_LOC(globalsize), C_NULL_PTR, 0, C_NULL_PTR, C_NULL_PTR)
+  call check_status('NDRangeKernel', ierr)
+  ierr = clFinish(cmd_queues(1))
+  call check_status('clFinish', ierr)
 
   ! Copy A from the device
-  AfromDevice = 1
+  ierr = clEnqueueReadBuffer(cmd_queues(1), deviceA, CL_TRUE, zero, &
+       arraysize, C_LOC(AfromDevice), 0, C_NULL_PTR, C_NULL_PTR)
+  call check_status('Read buffer', ierr)
+  ierr = clFinish(cmd_queues(1))
+  call check_status('clFinish', ierr)
 
   ! Clean up OpenCL device
   call ocl_release()

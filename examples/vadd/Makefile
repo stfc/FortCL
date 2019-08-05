@@ -3,26 +3,23 @@ F90 ?= gfortran
 
 KERNELS = vadddevice.cl
 
-OCL_TARGET = XILINX_FPGA # Options: XILINX_FPGA | INTEL_FPGA | INTEL_CPU
+OCL_TARGET = 'XILINX_FPGA' # Options: XILINX_FPGA | INTEL_FPGA | INTEL_CPU
 
-ifeq ($(OCL_TARGET), XILINX_FPGA)
 PLATFORM = xilinx_u200_xdma_201830_2
-EXECUTION_TARGET = sw_emu # Options: sw_emu | hw_emu | hw
+EXECUTION_TARGET = hw_emu # Options: sw_emu | hw_emu | hw
 OCLBINS = $(KERNELS:.cl=.xclbin)
+PROFILING_FLAGS=--profile_kernel
 # TO RUN with sw_emu or hw_emu use:
 # $ emconfigutil --platform xilinx_u200_xdma_201830_2 --nd 1
 # $ XCL_EMULATION_MODE=sw_emu ./vadd.exe 
-endif
-ifeq ($(OCL_TARGET), INTEL_FPGA)
+#
 # TODO: Add Intel FPGA environment
-endif
-ifeq ($(OCL_TARGET), INTEL_CPU)
 # TODO: Add Intel CPU environment
-endif
 
 all: vadd
 
 vadd: fortcl vaddhost.o $(OCLBINS)
+	@echo $(OCL_TARGET) $(OCLBINS)
 	${F90} vaddhost.o -L../../src/ -lFortCL ${OPENCL_LIBS} -lOpenCL \
 		-o vadd.exe
 
@@ -37,7 +34,7 @@ vadd: fortcl vaddhost.o $(OCLBINS)
 		$< -o $<.xo
 	# Link to crete a Xilinx FPGA bianry container (.xclbin)
 	xocc --link --platform ${PLATFORM} --target ${EXECUTION_TARGET} \
-		$<.xo -o $@
+		${PROFILING_FLAGS} $<.xo -o $@
 
 
 # Compile Libraries
@@ -45,7 +42,7 @@ fortcl:
 	${MAKE} -C ../../
 
 clean:
-	rm -rf _x *.log *.o *~ *.exe *.mod *.info *.xo *.xclbin
+	rm -rf _x *.log *.o *~ *.exe *.mod *.info *.xo *.xclbin .run/ .Xil/
 
 allclean: clean
 	${MAKE} -C ../../ allclean
