@@ -37,18 +37,26 @@ contains
   !===================================================
 
   !> Initialise the GOcean environment
-  subroutine ocl_env_init()
+  subroutine ocl_env_init(num_queues)
     use ocl_utils_mod, only: init_device, init_cmd_queues
     implicit none
+    integer, intent(in), optional :: num_queues
     integer :: ierr
 
-    if(cl_env_initialised)return
+    if(cl_env_initialised) return
 
     ! Initialise the OpenCL device
     call init_device(cl_device, cl_version_str, cl_context)
 
     ! Create command queue(s)
-    cl_num_queues = 4
+    if (.not.present(num_queues)) then
+        cl_num_queues = 1
+    else
+        if (num_queues < 1) then
+            stop "The number of OpenCL queues should be a positive integer"
+        endif
+        cl_num_queues =  num_queues
+    endif
     allocate(cl_cmd_queues(cl_num_queues), Stat=ierr)
     if(ierr /= 0)then
        stop "Failed to allocate list for OpenCL command queues"
