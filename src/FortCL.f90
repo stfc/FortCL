@@ -52,6 +52,9 @@ contains
     if (.not.present(num_queues)) then
         cl_num_queues = 1
     else
+        if (num_queues < 1) then
+            stop "The number of OpenCL queues should be a positive integer"
+        endif
         cl_num_queues =  num_queues
     endif
     allocate(cl_cmd_queues(cl_num_queues), Stat=ierr)
