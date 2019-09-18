@@ -21,7 +21,8 @@ contains
   !===================================================
 
   !> Initialise the GOcean environment
-  subroutine ocl_env_init()
+  subroutine ocl_env_init(num_queues)
+    integer, intent(in), optional :: num_queues
     write (*,*) "FortCL compiled without OpenCL support!"
     cl_device = 0
     cl_context = 0
