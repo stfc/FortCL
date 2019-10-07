@@ -3,12 +3,13 @@ F90 ?= gfortran
 
 KERNELS = vadddevice.cl
 
-OCL_TARGET = 'XILINX_FPGA' # Options: XILINX_FPGA | INTEL_FPGA | INTEL_CPU
+OCL_TARGET ?= JIT # Options: XILINX_FPGA | INTEL_FPGA | JIT
 
-PLATFORM = xilinx_u200_xdma_201830_2
-EXECUTION_TARGET = hw_emu # Options: sw_emu | hw_emu | hw
-OCLBINS = $(KERNELS:.cl=.xclbin)
-PROFILING_FLAGS=--profile_kernel
+# PLATFORM ?= xilinx_u200_xdma_201830_2
+# EXECUTION_TARGET ?= hw_emu # Options: sw_emu | hw_emu | hw
+# OCLBINS ?= $(KERNELS:.cl=.xclbin)
+# PROFILING_FLAGS=--profile_kernel
+
 # TO RUN with sw_emu or hw_emu use:
 # $ emconfigutil --platform xilinx_u200_xdma_201830_2 --nd 1
 # $ XCL_EMULATION_MODE=sw_emu ./vadd.exe 

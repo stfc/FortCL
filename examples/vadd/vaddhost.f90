@@ -1,6 +1,6 @@
 
-#ifdef OCL_CPU
-#define FILENAME "vadddevice.spirv"
+#ifdef JIT
+#define FILENAME "vadddevice.cl"
 #elif OCL_INTELFPGA
 #define FILENAME "vadddevice.aocx"
 #elif XILINX_FPGA
