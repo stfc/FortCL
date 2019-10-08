@@ -1,7 +1,7 @@
 
 #ifdef JIT
 #define FILENAME "vadddevice.cl"
-#elif OCL_INTELFPGA
+#elif INTEL_FPGA
 #define FILENAME "vadddevice.aocx"
 #elif XILINX_FPGA
 #define FILENAME "vadddevice.xclbin"

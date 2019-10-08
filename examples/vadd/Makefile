@@ -3,24 +3,44 @@ F90 ?= gfortran
 
 KERNELS = vadddevice.cl
 
-OCL_TARGET ?= JIT # Options: XILINX_FPGA | INTEL_FPGA | JIT
 
+# Options: JIT | XILINX_FPGA | INTEL_FPGA
+OCL_TARGET ?= JIT 
+
+# Uncomment and configure the environment variables below according
+# to the selected OCL_TARGET:
+
+# 1. JIT Target
+# -------------
+OCLBINS =  # No kernel will be compiled at compile time.
+
+# To RUN, place the .cl file in the same folder and use:
+# $ ./vadd.exe
+
+
+# 2. XILINX FPGA
+# --------------
 # PLATFORM ?= xilinx_u200_xdma_201830_2
 # EXECUTION_TARGET ?= hw_emu # Options: sw_emu | hw_emu | hw
 # OCLBINS ?= $(KERNELS:.cl=.xclbin)
-# PROFILING_FLAGS=--profile_kernel
+# XILINX_FLAGS='--optimize 3'
+# XILINX_FLAGS=--profile_kernel
 
 # TO RUN with sw_emu or hw_emu use:
 # $ emconfigutil --platform xilinx_u200_xdma_201830_2 --nd 1
 # $ XCL_EMULATION_MODE=sw_emu ./vadd.exe 
-#
-# TODO: Add Intel FPGA environment
-# TODO: Add Intel CPU environment
+# TO RUN in the FPGA use:
+# $ ./vadd.exe
+
+
+# 3. Intel FPGA
+# -------------
+
 
 all: vadd
 
 vadd: fortcl vaddhost.o $(OCLBINS)
-	@echo $(OCL_TARGET) $(OCLBINS)
+	@echo "Compiling for $(OCL_TARGET)"
 	${F90} vaddhost.o -L../../src/ -lFortCL ${OPENCL_LIBS} -lOpenCL \
 		-o vadd.exe
 
@@ -28,14 +48,16 @@ vadd: fortcl vaddhost.o $(OCLBINS)
 	${F90} ${F90FLAGS} -cpp -D${OCL_TARGET} -I../../src -c $<
 
 
-# Xilinx OpenCL kernel compilation
+# Xilinx FPGA OpenCL kernel compilation
 %.xclbin: %.cl
 	# Compile to a .xo file
 	xocc --compile --platform ${PLATFORM} --target ${EXECUTION_TARGET} \
-		$< -o $<.xo
+		${XILINX_FLAGS} $< -o $<.xo
 	# Link to crete a Xilinx FPGA bianry container (.xclbin)
 	xocc --link --platform ${PLATFORM} --target ${EXECUTION_TARGET} \
-		${PROFILING_FLAGS} $<.xo -o $@
+		${XILINX_FLAGS} $<.xo -o $@
+
+# Intel FPGA OpenCL kernel compilation
 
 
 # Compile Libraries
