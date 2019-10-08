@@ -194,8 +194,8 @@ contains
             print '(a)', ' *** Source code *** '
             print '(1024a)', source(1:min(binary_size+1, 1024))
         endif
-        !print '(a)', 'Options: '
-        !print '(1024a)', options(1:min(irec, 1024))
+        print '(a)', ' *** Options *** '
+        print '(1024a)', options(1:min(irec, 1024))
         ierr=clGetProgramBuildInfo(prog, device, CL_PROGRAM_BUILD_LOG, &
                                   sizeof(retinfo), C_LOC(retinfo),iret)
         if (ierr.ne.0) stop 'clGetProgramBuildInfo'

@@ -35,7 +35,7 @@ OCLBINS =  # No kernel will be compiled at compile time.
 
 # 3. Intel FPGA
 # -------------
-
+# TODO: Add Intel FPGA environment variables
 
 all: vadd
 
@@ -58,6 +58,7 @@ vadd: fortcl vaddhost.o $(OCLBINS)
 		${XILINX_FLAGS} $<.xo -o $@
 
 # Intel FPGA OpenCL kernel compilation
+# TODO: Add Intel FPGA kernel compilation
 
 
 # Compile Libraries
