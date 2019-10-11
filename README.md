@@ -13,7 +13,7 @@ libraries on your system.
 
 # Example #
 
-There is an example in the `examples` directory but in short:
+There are two examples in the `examples` directory but in short:
 
     program fcl_test
       implicit none
