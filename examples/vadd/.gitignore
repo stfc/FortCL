@@ -1,0 +1,12 @@
+.Xil/
+.run/
+emconfig.json
+_x/
+*.log
+*.o
+*~
+*.exe
+*.mod
+*.info
+*.xo
+*.xclbin

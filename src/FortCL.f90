@@ -28,7 +28,7 @@ module fortcl
   character(len=CL_UTIL_STR_LEN) :: cl_kernel_names(cl_max_num_kernels)
   integer(c_intptr_t), target :: cl_kernels(cl_max_num_kernels)
 
-  public ocl_env_init
+  public ocl_env_init, ocl_release
   public cl_context, cl_device, get_num_cmd_queues, get_cmd_queues
   public create_rw_buffer, add_kernels, get_kernel_by_name, read_buffer
 

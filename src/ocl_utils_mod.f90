@@ -116,53 +116,73 @@ contains
 
   !===================================================
 
+  !> Loads and builds the OpenCL program. If the filename received has a
+  ! '.cl' extension, it will load the source file and compile the program.
+  ! If it is not a '.cl' file, it will assume it is a pre-compiled binary
+  ! and attempt to link it.
   function get_program(context, device, version_str, filename) result(prog)
     integer(c_intptr_t), target :: prog
     integer(c_intptr_t), intent(inout), target :: device, context 
     character(len=CL_UTIL_STR_LEN), intent(in) :: version_str, filename
     ! Locals
-    character(len=1,kind=c_char), allocatable, target :: source(:)
+    character(len=1, kind=c_char), allocatable, target :: source(:)
     type(c_ptr), target :: psource
     character(len=1024) :: options
+    character(len=3) :: extension
     character(len=1, kind=c_char), target :: retinfo(1:1024), c_options(1:1024)
-    integer :: i, irec, iallocerr
+    integer :: i, irec, iallocerr, last_dot
     integer(c_int32_t) :: ierr
     integer, parameter :: iunit=10
     integer(c_size_t), target :: binary_size, iret
     character, dimension(1) :: char
 
+    ! Get the filename extension
+    last_dot = scan(trim(filename), ".", BACK= .true.)
+    extension = filename(last_dot:)
+
     ! read kernel from disk
-    open(iunit, file=filename, access='direct', &
-         status='old', action='read', iostat=ierr, recl=1)
-    if (ierr.ne.0)then
+    open(iunit, file=filename, access='direct', status='old', action='read', &
+         iostat=ierr, recl=1)
+    if (ierr.ne.0) then
        write(*,*) 'Cannot open file: ', TRIM(filename)
        stop
     end if
     irec=1
     do
        read(iunit, rec=irec, iostat=ierr) char
-       if (ierr /= 0) exit
+       if (ierr.ne.0) exit
        irec = irec+1
     end do
-
     if (irec.eq.0) stop 'nothing read'
-    allocate(source(irec+1),stat=iallocerr)
+    allocate(source(irec+1), stat=iallocerr)
     if (iallocerr.ne.0) stop 'allocate'
     do i=1,irec
        read(iunit,rec=i,iostat=ierr) source(i:i)
     enddo
     close(iunit)
-
-    print '(a,i7)','size of source code in bytes: ',irec
-
     psource=C_LOC(source) ! pointer to source code
-    binary_size = irec
-    prog = clCreateProgramWithBinary(context, 1, C_LOC(device), &
-                                     C_LOC(binary_size), C_LOC(psource), &
-                                     C_NULL_PTR, ierr)
 
-    call check_status('clCreateProgramWithSource', ierr)
+    print '(a,i7)', 'size of source code in bytes: ', irec
 
+    ! Create the OpenCL program
+    if (extension == ".cl") then
+        ! If it has a .cl extension, it will be JIT'ed
+        source(irec+1) = C_NULL_CHAR  ! In C strings end with NULL 
+        binary_size = irec + 1
+        prog = clCreateProgramWithSource(context, 1, C_LOC(psource), &
+                                         C_LOC(binary_size), ierr)
+        call check_status('clCreateProgramWithSource', ierr)
+    else
+        ! It the extension is not .cl, we assume it is a binary
+        binary_size = irec
+        prog = clCreateProgramWithBinary(context, 1, C_LOC(device), &
+                                         C_LOC(binary_size), C_LOC(psource), &
+                                         C_NULL_PTR, ierr)
+
+        call check_status('clCreateProgramWithBinary', ierr)
+    endif
+
+    ! Build the OpenCL Program
     options = "" !'-cl-opt-disable' ! compiler options
     irec = len(trim(options))
     do i=1, irec
@@ -170,16 +190,23 @@ contains
     enddo
     c_options(irec+1) = C_NULL_CHAR
     ierr=clBuildProgram(prog, 0, C_NULL_PTR, C_LOC(c_options), &
-         C_NULL_FUNPTR,C_NULL_PTR)
+                        C_NULL_FUNPTR,C_NULL_PTR)
     if (ierr.ne.CL_SUCCESS) then
-       print *,'clBuildProgram',ierr
-       ierr=clGetProgramBuildInfo(prog, device, CL_PROGRAM_BUILD_LOG, &
-            sizeof(retinfo), C_LOC(retinfo),iret)
-       if (ierr.ne.0) stop 'clGetProgramBuildInfo'
-       print '(a)','build log start'
-       print '(1024a)',retinfo(1:min(iret,1024))
-       print '(a)','build log end'
-       stop
+        print *, 'clBuildProgram', ierr
+
+        if (extension == ".cl") then
+            print '(a)', ' *** Source code *** '
+            print '(1024a)', source(1:min(binary_size+1, 1024))
+        endif
+        print '(a)', ' *** Options *** '
+        print '(1024a)', options(1:min(irec, 1024))
+        ierr=clGetProgramBuildInfo(prog, device, CL_PROGRAM_BUILD_LOG, &
+                                  sizeof(retinfo), C_LOC(retinfo),iret)
+        if (ierr.ne.0) stop 'clGetProgramBuildInfo'
+        print '(a)', 'build log start'
+        print '(1024a)', retinfo(1:min(iret, 1024))
+        print '(a)', 'build log end'
+        stop
     endif
 
   end function get_program
