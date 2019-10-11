@@ -116,6 +116,10 @@ contains
 
   !===================================================
 
+  !> Loads and builds the OpenCL program. If the filename received has a
+  ! '.cl' extension, it will load the source file and compile the program.
+  ! If it is not a '.cl' file, it will assume it is a pre-compiled binary
+  ! and attempt to link it.
   function get_program(context, device, version_str, filename) result(prog)
     integer(c_intptr_t), target :: prog
     integer(c_intptr_t), intent(inout), target :: device, context 
