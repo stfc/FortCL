@@ -1,10 +1,12 @@
 F90 ?= gfortran
 
-
+# The OpenCL kernels will be compiled as part of the build system unless the
+# JIT option is selected. In the JIT case this file will be ignored.
 KERNELS = vadddevice.cl
 
-
 # Options: JIT | XILINX_FPGA | INTEL_FPGA
+# This value is passed as a DEFINE to the compiler and is it used in the source
+# code for platform-specific sections (e.g. choosing the kernel filename).
 OCL_TARGET ?= JIT 
 
 # Uncomment and configure the environment variables below according

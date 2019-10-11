@@ -1,4 +1,7 @@
 
+! Depending on the OpenCL Platform selected at compile time (see Makefile)
+! a FILENAME with the appropriate string value is chosen.
+! This can be an OpenCL source file or a compiled binary file.
 #ifdef JIT
 #define FILENAME "vadddevice.cl"
 #elif INTEL_FPGA
@@ -42,7 +45,7 @@ program vadd
   deviceB = create_rw_buffer(arraysize)
   deviceC = create_rw_buffer(arraysize)
 
-  ! Load a kernel (expects pre-compiled kernels)
+  ! Load the kernel and set up the arguments
   call add_kernels(1, "vadd", FILENAME)
   vaddkernel = get_kernel_by_name("vadd")
   ierr = clSetKernelArg(vaddkernel, 0, C_SIZEOF(deviceB), C_LOC(deviceB))
