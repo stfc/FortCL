@@ -4,6 +4,7 @@ module ocl_utils_mod
   implicit none
 
   integer, parameter :: CL_UTIL_STR_LEN = 64
+  logical :: verbose
 
   !> This interface lets us over-load read_buffer to take Fortran
   !! arrays of differing ranks.
@@ -27,6 +28,14 @@ contains
     integer(c_intptr_t), allocatable, target :: &
        platform_ids(:), device_ids(:)
     character(len=1,kind=c_char), allocatable, target :: device_name(:)
+
+    ! Just look if FORTCL_VERBOSE is set up (ierr == 0)
+    CALL get_environment_variable("FORTCL_VERBOSE", status=ierr)
+    if (ierr .eq. 0) then
+        verbose = .True.
+    else
+        verbose = .False.
+    endif
 
     num_platforms = 0
     ierr = clGetPlatformIDs(0, C_NULL_PTR, num_platforms)
@@ -364,7 +373,6 @@ contains
     character(len=*), intent(in) :: text
     integer, intent(in) :: ierr
 
-    logical, parameter :: verbose = .TRUE.
 
     if(ierr /= CL_SUCCESS)then
        write(*,'("Hit error: ",(A),": ",(A))') text, OCL_GetErrorString(ierr)
