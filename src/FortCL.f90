@@ -152,7 +152,6 @@ contains
     !> \TODO is there a better way to do this that reduces the need for
     !! string comparisons?
     do ik = 1, cl_num_kernels
-       write(*,*) "kernel name: ", cl_kernel_names(ik)
        if(name == cl_kernel_names(ik))then
           ! We can't just return out of this loop because this is a
           ! function
