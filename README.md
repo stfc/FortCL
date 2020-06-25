@@ -16,8 +16,8 @@ libraries on your system.
 There are 3 environment variables to control the OpenCL execution
 at runtime:
 
-- `FORTCL_KERNELS_FILE`: Can point to a source code file to JIT
-compile it and use its kernels.
+- `FORTCL_KERNELS_FILE`: Specify at run-time the binary or source file
+where the OpenCL kernels are if this is not given at compile-time.
 
 - `FORTCL_PLATFORM`: If a system has multiple OpenCL platforms, this
 environment variable will choose which one to use. If not specified
