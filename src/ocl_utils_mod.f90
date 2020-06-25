@@ -17,8 +17,8 @@ contains
   
   subroutine init_device(device, version_str, context)
     !> Initialise an OpenCL device
-    integer(c_intptr_t), intent(inout) :: device, context 
-    character(len=CL_UTIL_STR_LEN), intent(inout) :: version_str
+    integer(c_intptr_t), intent(out) :: device, context 
+    character(len=CL_UTIL_STR_LEN), intent(out) :: version_str
     ! Locals
     integer :: iplatform, idevice, iallocerr
     integer(c_intptr_t), target :: ctx_props(3)
@@ -28,13 +28,15 @@ contains
     integer(c_intptr_t), allocatable, target :: &
        platform_ids(:), device_ids(:)
     character(len=1,kind=c_char), allocatable, target :: device_name(:)
+    character(len=1) :: strvalue
 
-    ! Just look if FORTCL_VERBOSE is set up (ierr == 0)
-    CALL get_environment_variable("FORTCL_VERBOSE", status=ierr)
-    if (ierr .eq. 0) then
-        verbose = .True.
-    else
+    ! Set verbosity to false if FORTCL_VERBOSE does not exist (ierr is 1) or
+    ! is equal to "0".
+    CALL get_environment_variable("FORTCL_VERBOSE", strvalue, status=ierr)
+    if (ierr .eq. 1 .or. strvalue .eq. "0") then
         verbose = .False.
+    else
+        verbose = .True.
     endif
 
     num_platforms = 0
@@ -44,7 +46,7 @@ contains
        write (*,*) "Failed to get any OpenCL platform IDs"
        stop
     end if
-    print '(a,i2)','Num Platforms: ',num_platforms
+    print '(a,i2)','Number of OpenCL Platforms: ',num_platforms
 
     allocate(platform_ids(num_platforms), stat=iallocerr)
     if (iallocerr.ne.0) stop 'memory allocation error'
@@ -55,16 +57,23 @@ contains
                             num_platforms)
     call check_status('clGetPlatformIDs', ierr)
 
-    ! Get device IDs only for platform 1
-    iplatform=1
+    ! Select the OpenCL platform to use
+    CALL get_environment_variable("FORTCL_PLATFORM", strvalue, status=ierr)
+    if(ierr .eq. 1) then
+        ! By default use platform 1
+        iplatform=1
+    else
+        read(strvalue,"(i1)") iplatform
+    endif
 
+    ! Get device IDs only for the selected platform
     ierr=clGetDeviceIDs(platform_ids(iplatform), CL_DEVICE_TYPE_ALL, &
                         0, C_NULL_PTR, num_devices)
     call check_status('clGetDeviceIDs', ierr)
     if (num_devices < 1)then
        stop 'Failed to find any OpenCL devices'
     end if
-    print '(a,i2)','Num Devices: ',num_devices
+    print '(a,i2)','Number of OpenCL Devices: ',num_devices
 
     allocate(device_ids(num_devices), stat=iallocerr)
     if (iallocerr.ne.0) stop 'memory allocation error'
@@ -95,12 +104,12 @@ contains
     if (ierr.ne.CL_SUCCESS) stop 'clGetDeviceInfo'
 
     write (*,'(a,i2,a,i3,a)',advance='no') &
-         ' Device (#',idevice,', Compute Units: ',device_cu,') - '
+        'Selected Device (#',idevice,', Compute Units: ',device_cu,') - '
     print *,device_name(1:iret)
     deallocate(device_name)
 
-    print '(a,i2,a)', 'Creating context for: ', num_devices,' devices'
-    print '(a,i2)', 'for platform: ',iplatform
+    print '(a,i2,a,i2)', 'Creating OpenCL Context for ', num_devices, &
+        ' devices of platform ', iplatform
     ctx_props(1) = CL_CONTEXT_PLATFORM
     ctx_props(2) = platform_ids(iplatform)
     ctx_props(3) = 0
