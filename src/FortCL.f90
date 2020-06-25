@@ -89,7 +89,7 @@ contains
     end if
 
     if(.not. present(filename))then
-       call get_environment_variable("PSYCLONE_KERNELS_FILE", lfilename)
+       call get_environment_variable("FORTCL_KERNELS_FILE", lfilename)
     else
        lfilename = filename
     end if
