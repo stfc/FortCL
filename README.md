@@ -11,6 +11,21 @@ variables. You will need to set F90 (and optionally, F90FLAGS).
 At link time you will need to link with the OpenCL run-time
 libraries on your system.
 
+# Controlling runtime behaviour"
+
+There are 3 environment variables to control the OpenCL execution
+at runtime:
+
+- `FORTCL_KERNELS_FILE`: Can point to a source code file to JIT
+compile it and use its kernels.
+
+- `FORTCL_PLATFORM`: If a system has multiple OpenCL platforms, this
+environment variable will choose which one to use. If not specified
+it will use platform 1.
+
+- `FORTCL_VERBOSE`: If this environment is set to a value different than
+0, it will produce a more verbose execution of FortCL.
+
 # Example #
 
 There are two examples in the `examples` directory but in short:
