@@ -151,7 +151,6 @@ contains
     integer(c_int32_t) :: ierr
     integer, parameter :: iunit=10
     integer(c_size_t), target :: binary_size, iret
-    character, dimension(1) :: char
     byte, dimension(:), allocatable, target :: buffer
 
     ! Get the filename extension
@@ -330,8 +329,6 @@ contains
     integer(c_intptr_t), intent(in) :: queue, device_ptr
     real(kind=wp), target, intent(inout) :: local_array(:,:)
     integer(8), intent(in) :: nelem
-    ! Locals
-    integer(8) :: nbytes
     ! Pass the first element of the array that will be filled with
     ! data from the buffer on the OpenCL device
     call read_buffer_ptr(queue, device_ptr, local_array(1,1), nelem)
