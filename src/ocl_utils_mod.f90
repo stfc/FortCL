@@ -61,9 +61,17 @@ contains
     CALL get_environment_variable("FORTCL_PLATFORM", strvalue, status=ierr)
     if(ierr .eq. 1) then
         ! By default use platform 1
-        iplatform=1
+        iplatform = 1
     else
-        read(strvalue,"(i1)") iplatform
+        read(strvalue,"(i1)", iostat=ierr) iplatform
+        if(ierr .ne. 0) then
+            stop 'Error: Cannot convert FORTCL_PLATFORM value into an integer.'
+        endif
+        if(iplatform > num_platforms) then
+            write(*,*) 'Error: Specified FORTCL_PLATFORM is bigger than the', &
+                       ' number of OpenCL platforms available.'
+            stop
+        endif
     endif
 
     ! Get device IDs only for the selected platform
