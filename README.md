@@ -20,9 +20,10 @@ at runtime:
 source code filename containing the OpenCL kernels to execute.
 
 - `FORTCL_PLATFORM`: Integer that selects in which OpenCL platform the
-kernels are going to be executed (the list of OpenCL platforms can be
-queried with the `clinfo` command). If this variable is not set, the
-kernels will be launched on platform 1.
+kernels are going to be executed. The list of OpenCL platforms is a 
+1-based indexing list that can be queried with the `clinfo` command.
+If this variable is not set, the kernels will be launched on platform
+1 (first available).
 
 - `FORTCL_VERBOSE`: Boolean value to request more verbose information
 of the OpenCL runtime execution. It is considered true if this environment
