@@ -89,7 +89,7 @@ contains
     end if
 
     if(.not. present(filename))then
-       call get_environment_variable("PSYCLONE_KERNELS_FILE", lfilename)
+       call get_environment_variable("FORTCL_KERNELS_FILE", lfilename)
     else
        lfilename = filename
     end if
@@ -152,7 +152,6 @@ contains
     !> \TODO is there a better way to do this that reduces the need for
     !! string comparisons?
     do ik = 1, cl_num_kernels
-       write(*,*) "kernel name: ", cl_kernel_names(ik)
        if(name == cl_kernel_names(ik))then
           ! We can't just return out of this loop because this is a
           ! function
