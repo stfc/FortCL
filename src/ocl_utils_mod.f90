@@ -28,7 +28,7 @@ contains
     integer(c_intptr_t), allocatable, target :: &
        platform_ids(:), device_ids(:)
     character(len=1,kind=c_char), allocatable, target :: device_name(:)
-    character(len=1) :: strvalue
+    character(len=1) :: strvalue = ' '
     ! Set verbosity to false if FORTCL_VERBOSE does not exist (ierr is 1) or
     ! is equal to "0".
     CALL get_environment_variable("FORTCL_VERBOSE", strvalue, status=ierr)
@@ -66,7 +66,7 @@ contains
         if(ierr .ne. 0) then
             stop 'Error: Cannot convert FORTCL_PLATFORM value into an integer.'
         endif
-        if(iplatform > num_platforms .or. iplatform .eq. 0) then
+        if(iplatform > num_platforms .or. iplatform <= 0) then
             write(*,*) 'Error: FORTCL_PLATFORM should be a number between ', &
                 '1 and the number of platforms. Use `clinfo` to list the ', &
                 'available OpenCL platforms in the system.'
