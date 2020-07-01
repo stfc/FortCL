@@ -16,15 +16,18 @@ libraries on your system.
 There are 3 environment variables to control the OpenCL execution
 at runtime:
 
-- `FORTCL_KERNELS_FILE`: Specify at run-time the binary or source file
-where the OpenCL kernels are if this is not given at compile-time.
+- `FORTCL_KERNELS_FILE`: Allows to specify at run-time the binary or
+source code filename containing the OpenCL kernels to execute.
 
-- `FORTCL_PLATFORM`: If a system has multiple OpenCL platforms, this
-environment variable will choose which one to use. If not specified
-it will use platform 1.
+- `FORTCL_PLATFORM`: Integer that selects in which OpenCL platform the
+kernels are going to be executed. The list of OpenCL platforms is a 
+1-based indexing list that can be queried with the `clinfo` command.
+If this variable is not set, the kernels will be launched on platform
+1 (first available).
 
-- `FORTCL_VERBOSE`: If this environment is set to a value different than
-0, it will produce a more verbose execution of FortCL.
+- `FORTCL_VERBOSE`: Boolean value to request more verbose information
+of the OpenCL runtime execution. It is considered true if this environment
+variable exists and is set to a value other than 0.
 
 # Example #
 
