@@ -2150,5 +2150,4 @@ module clfortran
     !end interface
     !
 
-    contains
 end module clfortran

@@ -176,7 +176,11 @@ contains
     ! Get the size in bytes and allocate a byte buffer
     inquire(iunit, SIZE=binary_size)
     allocate(buffer(binary_size), stat=iallocerr)
-    if (iallocerr.ne.0) stop 'Error allocating buffer'
+    if (iallocerr.ne.0) then
+         write(*,*) 'Error: Allocation of ', binary_size, ' bytes buffer to ', &
+             'store the ', TRIM(filename), ' contents failed with error ', iallocerr
+        stop
+    endif
 
     ! Read the kernels files
     read(iunit, iostat=ierr) buffer
