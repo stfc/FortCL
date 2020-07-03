@@ -151,7 +151,6 @@ contains
     integer(c_intptr_t), intent(inout), target :: device, context 
     character(len=CL_UTIL_STR_LEN), intent(in) :: version_str, filename
     ! Locals
-    character(len=1, kind=c_char), allocatable, target :: source(:)
     type(c_ptr), target :: psource
     character(len=1024) :: options
     character(len=3) :: extension
@@ -160,53 +159,50 @@ contains
     integer(c_int32_t) :: ierr
     integer, parameter :: iunit=10
     integer(c_size_t), target :: binary_size, iret
-    character, dimension(1) :: char
+    byte, dimension(:), allocatable, target :: buffer
 
     ! Get the filename extension
     last_dot = scan(trim(filename), ".", BACK= .true.)
     extension = filename(last_dot:)
 
-    ! read kernel from disk
-    open(iunit, file=filename, access='direct', status='old', action='read', &
-         iostat=ierr, recl=1)
+    ! Open the kernels file in binary form
+    open(iunit, file=filename, form='unformatted', access='stream', status='old', &
+        action='read', iostat=ierr)
     if (ierr.ne.0) then
-       write(*,*) 'Cannot open file: ', TRIM(filename)
+       write(*,*) 'Cannot open file: ', TRIM(filename), 'error code:', ierr
        stop
     end if
-    irec=1
-    do
-       read(iunit, rec=irec, iostat=ierr) char
-       if (ierr.ne.0) exit
-       irec = irec+1
-    end do
-    if (irec.eq.0) stop 'nothing read'
-    allocate(source(irec+1), stat=iallocerr)
-    if (iallocerr.ne.0) stop 'allocate'
-    do i=1,irec
-       read(iunit,rec=i,iostat=ierr) source(i:i)
-    enddo
-    close(iunit)
-    psource=C_LOC(source) ! pointer to source code
 
-    print '(a,i7)', 'size of source code in bytes: ', irec
+    ! Get the size in bytes and allocate a byte buffer
+    inquire(iunit, SIZE=binary_size)
+    allocate(buffer(binary_size), stat=iallocerr)
+    if (iallocerr.ne.0) then
+         write(*,*) 'Error: Allocation of ', binary_size, ' bytes buffer to ', &
+             'store the ', TRIM(filename), ' contents failed with error ', iallocerr
+        stop
+    endif
+
+    ! Read the kernels files
+    read(iunit, iostat=ierr) buffer
+    close(iunit)
+
+    psource=C_LOC(buffer) ! pointer to source code
 
     ! Create the OpenCL program
     if (extension == ".cl") then
         ! If it has a .cl extension, it will be JIT'ed
-        source(irec+1) = C_NULL_CHAR  ! In C strings end with NULL 
-        binary_size = irec + 1
         prog = clCreateProgramWithSource(context, 1, C_LOC(psource), &
                                          C_LOC(binary_size), ierr)
         call check_status('clCreateProgramWithSource', ierr)
     else
         ! It the extension is not .cl, we assume it is a binary
-        binary_size = irec
         prog = clCreateProgramWithBinary(context, 1, C_LOC(device), &
                                          C_LOC(binary_size), C_LOC(psource), &
                                          C_NULL_PTR, ierr)
 
         call check_status('clCreateProgramWithBinary', ierr)
     endif
+    deallocate(buffer)
 
     ! Build the OpenCL Program
     options = "" !'-cl-opt-disable' ! compiler options
@@ -219,11 +215,6 @@ contains
                         C_NULL_FUNPTR,C_NULL_PTR)
     if (ierr.ne.CL_SUCCESS) then
         print *, 'clBuildProgram', ierr
-
-        if (extension == ".cl") then
-            print '(a)', ' *** Source code *** '
-            print '(1024a)', source(1:min(binary_size+1, 1024))
-        endif
         print '(a)', ' *** Options *** '
         print '(1024a)', options(1:min(irec, 1024))
         ierr=clGetProgramBuildInfo(prog, device, CL_PROGRAM_BUILD_LOG, &
@@ -350,8 +341,6 @@ contains
     integer(c_intptr_t), intent(in) :: queue, device_ptr
     real(kind=wp), target, intent(inout) :: local_array(:,:)
     integer(8), intent(in) :: nelem
-    ! Locals
-    integer(8) :: nbytes
     ! Pass the first element of the array that will be filled with
     ! data from the buffer on the OpenCL device
     call read_buffer_ptr(queue, device_ptr, local_array(1,1), nelem)
