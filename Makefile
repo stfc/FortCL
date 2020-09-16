@@ -1,10 +1,10 @@
 all:
-	${MAKE} -C src
+	${MAKE} -C src OCL=yes
 
 # Target to build stub library (i.e. with no actual
 # OpenCL functionality or dependence)
 stub:
-	${MAKE} -C src stub
+	${MAKE} -C src OCL=no
 
 clean:
 	${MAKE} -C src clean
