@@ -31,7 +31,7 @@ variable exists and is set to a value other than 0.
 
 # Example #
 
-There are two examples in the `examples` directory but in short:
+There are three examples in the `examples` directory but in short:
 
     program fcl_test
       implicit none
