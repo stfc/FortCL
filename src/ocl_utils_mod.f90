@@ -15,19 +15,24 @@ module ocl_utils_mod
 
 contains
   
-  subroutine init_device(device, version_str, context)
-    !> Initialise an OpenCL device
+  !> Initialise an OpenCL Device and Context using the platform given by the
+  !! FORTCL_PLATFORM environment variable (defaults to 1 if not specified),
+  !! and the device specified by the device_selection argument (defaults to
+  !! 1 if not specified). Note that a device_selection set to 0 requests
+  !! to select all available devices in the platform.
+  subroutine init_device(device, version_str, context, device_selection)
     integer(c_intptr_t), intent(out) :: device, context 
     character(len=CL_UTIL_STR_LEN), intent(out) :: version_str
+    integer, intent(in), optional :: device_selection
     ! Locals
-    integer :: iplatform, idevice, iallocerr
+    integer :: iplatform, idevice, iallocerr, selected_device
     integer(c_intptr_t), target :: ctx_props(3)
     integer(c_int32_t), target :: device_cu
     integer(c_size_t) :: iret, zero_size = 0
     integer(c_int32_t) :: ierr, num_devices, num_platforms
     integer(c_intptr_t), allocatable, target :: &
        platform_ids(:), device_ids(:)
-    character(len=1,kind=c_char), allocatable, target :: device_name(:)
+    character(kind=c_char), allocatable, target :: device_name(:)
     character(len=1) :: strvalue = ' '
     ! Set verbosity to false if FORTCL_VERBOSE does not exist (ierr is 1) or
     ! is equal to "0".
@@ -78,6 +83,7 @@ contains
     ierr=clGetDeviceIDs(platform_ids(iplatform), CL_DEVICE_TYPE_ALL, &
                         0, C_NULL_PTR, num_devices)
     call check_status('clGetDeviceIDs', ierr)
+    ! num_devices = 1
     if (num_devices < 1)then
        stop 'Failed to find any OpenCL devices'
     end if
@@ -92,39 +98,61 @@ contains
                           num_devices, C_LOC(device_ids), num_devices)
     call check_status('clGetDeviceIDs', ierr)
 
-    ! Get device info only for device 1
-    idevice=1
-    device = device_ids(idevice)
+    if (.not.present(device_selection)) then
+        selected_device = 1
+    else
+        selected_device = device_selection
+    endif
+    ! Get device info from all devices
+    do idevice=1, num_devices
 
-    ierr=clGetDeviceInfo(device_ids(idevice), &
-                         CL_DEVICE_MAX_COMPUTE_UNITS, sizeof(device_cu), &
-                         C_LOC(device_cu), iret)
-    call check_status('clGetDeviceInfo', ierr)
-    ierr=clGetDeviceInfo(device_ids(idevice), &
-                         CL_DEVICE_NAME, zero_size, C_NULL_PTR,iret)
-    call check_status('clGetDeviceInfo', ierr)
+       ierr=clGetDeviceInfo(device_ids(idevice), CL_DEVICE_MAX_COMPUTE_UNITS, &
+                            sizeof(device_cu), C_LOC(device_cu), iret)
+       call check_status('clGetDeviceInfo', ierr)
+       ierr=clGetDeviceInfo(device_ids(idevice), CL_DEVICE_NAME, zero_size, &
+                            C_NULL_PTR, iret)
+       call check_status('clGetDeviceInfo', ierr)
 
-    allocate(device_name(iret), stat=iallocerr)
-    if (iallocerr.ne.0) stop 'allocate'
+       allocate(device_name(iret), stat=iallocerr)
+       if (iallocerr.ne.0) stop 'allocate'
 
-    ierr=clGetDeviceInfo(device_ids(idevice), CL_DEVICE_NAME, &
-                         sizeof(device_name), C_LOC(device_name), iret)
-    if (ierr.ne.CL_SUCCESS) stop 'clGetDeviceInfo'
+       ierr=clGetDeviceInfo(device_ids(idevice), CL_DEVICE_NAME, &
+                            sizeof(device_name), C_LOC(device_name), iret)
+       call check_status('clGetDeviceInfo', ierr)
 
-    write (*,'(a,i2,a,i3,a)',advance='no') &
-        'Selected Device (#',idevice,', Compute Units: ',device_cu,') - '
-    print *,device_name(1:iret)
-    deallocate(device_name)
+       write (*, '(a,i2,a,i3,a)', advance='no') &
+          'Device (#', idevice,', Compute Units: ',device_cu,') - '
+       write(*,*) device_name
+       deallocate(device_name)
+    enddo
 
-    print '(a,i2,a,i2)', 'Creating OpenCL Context for ', num_devices, &
-        ' devices of platform ', iplatform
-    ctx_props(1) = CL_CONTEXT_PLATFORM
-    ctx_props(2) = platform_ids(iplatform)
-    ctx_props(3) = 0
-    context = clCreateContext(C_LOC(ctx_props), num_devices, &
-                              C_LOC(device_ids), C_NULL_FUNPTR, C_NULL_PTR, &
-                              ierr)
-    call check_status('clCreateContext', ierr)
+    if (selected_device == 0) then
+       print '(a,i2,a,i2)', 'Creating OpenCL Context for ', num_devices, &
+          ' devices of platform ', iplatform
+       ! device = ?
+       ctx_props(1) = CL_CONTEXT_PLATFORM
+       ctx_props(2) = platform_ids(iplatform)
+       ctx_props(3) = 0
+       context = clCreateContext(C_LOC(ctx_props), num_devices, &
+                                 C_LOC(device_ids), C_NULL_FUNPTR, &
+                                 C_NULL_PTR, ierr)
+       call check_status('clCreateContext', ierr)
+    elseif (selected_device > 0 .and. selected_device <= num_devices) then
+       print '(a,i1,a,i2)', 'Creating OpenCL Context for device #', &
+                selected_device, ' of platform ', iplatform
+       device = device_ids(selected_device)
+       ctx_props(1) = CL_CONTEXT_PLATFORM
+       ctx_props(2) = platform_ids(iplatform)
+       ctx_props(3) = 0
+       context = clCreateContext(C_LOC(ctx_props), 1, &
+                                 C_LOC(device_ids(selected_device)), &
+                                 C_NULL_FUNPTR, C_NULL_PTR, ierr)
+       call check_status('clCreateContext', ierr)
+    else
+        stop 'Failed to initialize OpenCL context: the device_selection' // &
+             ' parameter must be a number between 0 and the number' // &
+             ' of the available devices in the selected platform.'
+    endif
 
   end subroutine init_device
 
