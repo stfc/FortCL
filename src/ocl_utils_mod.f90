@@ -83,7 +83,6 @@ contains
     ierr=clGetDeviceIDs(platform_ids(iplatform), CL_DEVICE_TYPE_ALL, &
                         0, C_NULL_PTR, num_devices)
     call check_status('clGetDeviceIDs', ierr)
-    ! num_devices = 1
     if (num_devices < 1)then
        stop 'Failed to find any OpenCL devices'
     end if
@@ -129,7 +128,7 @@ contains
     if (selected_device == 0) then
        print '(a,i2,a,i2)', 'Creating OpenCL Context for ', num_devices, &
           ' devices of platform ', iplatform
-       ! device = ?
+       device = device_ids(1)
        ctx_props(1) = CL_CONTEXT_PLATFORM
        ctx_props(2) = platform_ids(iplatform)
        ctx_props(3) = 0
@@ -308,19 +307,46 @@ contains
 
   !> Set-up the specified number of OpenCL command queues for the specified
   !! context and device.
-  subroutine init_cmd_queues(nqueues, queues, context, device)
+  subroutine init_cmd_queues(nqueues, queues, context, device, &
+                             enable_profiling, out_of_order)
     !> The number of command queues to create
     integer, intent(in) :: nqueues
     integer(c_intptr_t), target, intent(inout) :: queues(nqueues)
     integer(c_intptr_t), intent(in) :: device
     integer(c_intptr_t), intent(in) :: context
+    logical, intent(in), optional :: enable_profiling, out_of_order
     ! Locals
     integer :: i
+    logical :: profiling_property, out_of_order_property
     integer(c_int32_t) :: ierr
+    integer(c_int64_t), parameter :: no_properties = b'00'
+    integer(c_int64_t), parameter :: both_properties = b'11'
+
+    if (.not.present(enable_profiling)) then
+        profiling_property = .false.
+    else
+        profiling_property = enable_profiling
+    endif
+
+    if (.not.present(out_of_order)) then
+        out_of_order_property = .false.
+    else
+        out_of_order_property = out_of_order
+    endif
 
     do i=1, nqueues
-       queues(i) = clCreateCommandQueue(context, device, &
-                                        CL_QUEUE_PROFILING_ENABLE, ierr)
+       if ((.not. profiling_property) .and. (.not. out_of_order_property)) then
+          queues(i) = clCreateCommandQueue(context, device, no_properties, ierr)
+       elseif (profiling_property .and. out_of_order_property) then
+          queues(i) = clCreateCommandQueue(context, device, both_properties, ierr)
+       elseif (profiling_property) then
+          queues(i) = clCreateCommandQueue(context, device, &
+                                           CL_QUEUE_PROFILING_ENABLE, ierr)
+       elseif (out_of_order_property) then
+          queues(i) = clCreateCommandQueue(context, device, &
+                                           CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE, ierr)
+       endif
+
        call check_status('clCreateCommandQueue', ierr)
     end do
 

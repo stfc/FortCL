@@ -36,16 +36,19 @@ contains
 
   !===================================================
 
-  !> Initialise the OpenCL environment. This subroutine has 2 optional
+  !> Initialise the OpenCL environment. This subroutine has 4 optional
   !! arguments:
-  !! - num_queues: Number of OpenCL queues requested (defaults to 1).
+  !! - num_queues: Number of OpenCL queues requested (defaults to 1)
   !! - device_selection: Id of the device selected, 0 specifies a selection
-  !!                     with all available devices (defaults to 1).
-  subroutine ocl_env_init(num_queues, device_selection)
+  !!                     with all available devices (defaults to 1)
+  !! - enable_profiling: Command queue with profiling enabled (defaults to false)
+  !! - out_of_order: Request an out-of-order command queue (defaults to false)
+  subroutine ocl_env_init(num_queues, device_selection, &
+                          enable_profiling, out_of_order)
     use ocl_utils_mod, only: init_device, init_cmd_queues
     implicit none
-    integer, intent(in), optional :: num_queues
-    integer, intent(in), optional :: device_selection
+    integer, intent(in), optional :: num_queues, device_selection
+    logical, intent(in), optional :: enable_profiling, out_of_order
     integer :: ierr
 
     if(cl_env_initialised) return
@@ -66,7 +69,8 @@ contains
     if(ierr /= 0)then
        stop "Failed to allocate list for OpenCL command queues"
     end if
-    call init_cmd_queues(cl_num_queues, cl_cmd_queues, cl_context, cl_device)
+    call init_cmd_queues(cl_num_queues, cl_cmd_queues, cl_context, cl_device, &
+                         enable_profiling, out_of_order)
 
     ! At this point we have no kernels
     cl_num_kernels = 0
