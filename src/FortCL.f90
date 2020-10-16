@@ -36,17 +36,22 @@ contains
 
   !===================================================
 
-  !> Initialise the GOcean environment
-  subroutine ocl_env_init(num_queues)
+  !> Initialise the OpenCL environment. This subroutine has 2 optional
+  !! arguments:
+  !! - num_queues: Number of OpenCL queues requested (defaults to 1).
+  !! - device_selection: Id of the device selected, 0 specifies a selection
+  !!                     with all available devices (defaults to 1).
+  subroutine ocl_env_init(num_queues, device_selection)
     use ocl_utils_mod, only: init_device, init_cmd_queues
     implicit none
     integer, intent(in), optional :: num_queues
+    integer, intent(in), optional :: device_selection
     integer :: ierr
 
     if(cl_env_initialised) return
 
     ! Initialise the OpenCL device
-    call init_device(cl_device, cl_version_str, cl_context)
+    call init_device(cl_device, cl_version_str, cl_context, device_selection)
 
     ! Create command queue(s)
     if (.not.present(num_queues)) then
