@@ -29,7 +29,7 @@ contains
     integer(c_intptr_t), target :: ctx_props(3)
     integer(c_int32_t), target :: device_cu
     integer(c_size_t) :: iret, zero_size = 0
-    integer(c_int32_t) :: ierr, num_devices, num_platforms
+    integer(c_int32_t) :: ierr, num_devices, num_platforms, iignore
     integer(c_intptr_t), allocatable, target :: &
        platform_ids(:), device_ids(:)
     character(kind=c_char), allocatable, target :: device_name(:)
@@ -57,8 +57,7 @@ contains
 
     ! whenever "&" appears in C subroutine (address-of) call,
     ! then C_LOC has to be used in Fortran
-    ierr = clGetPlatformIDs(num_platforms, C_LOC(platform_ids), &
-                            num_platforms)
+    ierr = clGetPlatformIDs(num_platforms, C_LOC(platform_ids), iignore)
     call check_status('clGetPlatformIDs', ierr)
 
     ! Select the OpenCL platform to use
@@ -80,6 +79,7 @@ contains
     endif
 
     ! Get device IDs only for the selected platform
+    num_devices = 0
     ierr=clGetDeviceIDs(platform_ids(iplatform), CL_DEVICE_TYPE_ALL, &
                         0, C_NULL_PTR, num_devices)
     call check_status('clGetDeviceIDs', ierr)
@@ -94,7 +94,7 @@ contains
     ! whenever "&" appears in C subroutine (address-off) call,
     ! then C_LOC has to be used in Fortran
     ierr = clGetDeviceIDs(platform_ids(iplatform), CL_DEVICE_TYPE_ALL, &
-                          num_devices, C_LOC(device_ids), num_devices)
+                          num_devices, C_LOC(device_ids), iignore)
     call check_status('clGetDeviceIDs', ierr)
 
     if (.not.present(device_selection)) then
