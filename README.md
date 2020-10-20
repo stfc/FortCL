@@ -41,7 +41,7 @@ There are three examples in the `examples` directory but in short:
       integer(c_intptr_t), target :: device_buffer
       ! Initialise the OpenCL device and environment
       call ocl_env_init()
-      ! Load a kernel (expects pre-compiled kernels currently)
+      ! Load a kernel (it can be a source file or a pre-compiled object)
       call add_kernels(1, "my_ocl_kernel", filename)
       ! Create a read-write buffer on the device
       device_buffer = create_rw_buffer(num_bytes)

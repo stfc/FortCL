@@ -93,5 +93,8 @@ program vadd
   ! Clean up OpenCL device
   call ocl_release()
 
+  ! Finalise MPI
   call MPI_FINALIZE(ierr)
+
+  write(*,*) "The MPI+OpenCL example has finalised successfully!"
 end program vadd

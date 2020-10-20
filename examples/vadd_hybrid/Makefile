@@ -5,7 +5,7 @@ F90 = mpif90  # This example will only compile with an MPI compiler
 KERNELS = vadddevice.cl
 
 # Options: JIT | XILINX_FPGA | INTEL_FPGA
-# This value is passed as a DEFINE to the compiler and is it used in the source
+# This value is passed as a DEFINE to the compiler and is used in the source
 # code for platform-specific sections (e.g. choosing the kernel filename).
 OCL_TARGET ?= JIT 
 
