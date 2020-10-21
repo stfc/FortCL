@@ -324,13 +324,13 @@ contains
     integer(c_int64_t) :: properties = b'00' ! Start with empty properties
 
     if (present(enable_profiling)) then
-       if (enable_profiling .eqv. .true.) then
+       if (enable_profiling) then
           properties = ior(properties, CL_QUEUE_PROFILING_ENABLE) 
        endif
     endif
 
     if (present(out_of_order)) then
-       if (out_of_order .eqv. .true.) then
+       if (out_of_order) then
           properties = ior(properties, CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE)
        endif
     endif
