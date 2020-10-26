@@ -1,4 +1,4 @@
-F90 ?= gfortran
+F90 = mpif90  # This example will only compile with an MPI compiler
 
 # The OpenCL kernels will be compiled as part of the build system unless the
 # JIT option is selected. In the JIT case this file will be ignored.
