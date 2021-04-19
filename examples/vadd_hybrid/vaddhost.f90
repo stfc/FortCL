@@ -50,9 +50,10 @@ program vadd
     endif
   enddo
 
-  ! Allocate read-write buffers on the device
-  deviceA = create_rw_buffer(arraysize)
-  deviceB = create_rw_buffer(arraysize)
+  ! Allocate buffers on the device
+  deviceA = create_wonly_buffer(arraysize)
+  deviceB = create_ronly_buffer(arraysize)
+  ! deviceC is only read, but we use rw_buffer to test FortCL API
   deviceC = create_rw_buffer(arraysize)
 
   ! Load the kernel and set up the arguments

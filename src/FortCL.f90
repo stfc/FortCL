@@ -30,7 +30,8 @@ module fortcl
 
   public ocl_env_init, ocl_release
   public cl_context, cl_device, get_num_cmd_queues, get_cmd_queues
-  public create_rw_buffer, add_kernels, get_kernel_by_name, read_buffer
+  public create_rw_buffer, create_ronly_buffer, create_wonly_buffer
+  public add_kernels, get_kernel_by_name, read_buffer
 
 contains
 
@@ -196,6 +197,28 @@ contains
     buffer = makebuff(cl_context, CL_MEM_READ_WRITE, nbytes)
 
   end function create_rw_buffer
+
+  !> Create a read-only buffer in our existing OpenCL context
+  function create_ronly_buffer(nbytes) result(buffer)
+    use clfortran, only: CL_MEM_READ_ONLY
+    use ocl_utils_mod, only: makebuff => create_buffer
+    integer(c_size_t), intent(in) :: nbytes
+    integer(c_intptr_t), target :: buffer
+
+    buffer = makebuff(cl_context, CL_MEM_READ_ONLY, nbytes)
+
+  end function create_ronly_buffer
+
+  !> Create a write-only buffer in our existing OpenCL context
+  function create_wonly_buffer(nbytes) result(buffer)
+    use clfortran, only: CL_MEM_WRITE_ONLY
+    use ocl_utils_mod, only: makebuff => create_buffer
+    integer(c_size_t), intent(in) :: nbytes
+    integer(c_intptr_t), target :: buffer
+
+    buffer = makebuff(cl_context, CL_MEM_WRITE_ONLY, nbytes)
+
+  end function create_wonly_buffer
   
   !===================================================
 
