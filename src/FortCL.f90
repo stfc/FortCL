@@ -83,12 +83,13 @@ contains
 
   !===================================================
 
-  subroutine add_kernels(nkernels, kernel_names, filename)
+  subroutine add_kernels(nkernels, kernel_names, filename, compiler_flags)
     use iso_c_binding, only: c_intptr_t
     use ocl_utils_mod, only: get_program, get_kernel, release_program
     integer, intent(in) :: nkernels
     character(len=*), intent(in) :: kernel_names(nkernels)
     character(len=*), intent(in), optional :: filename
+    character(len=*), intent(in), optional :: compiler_flags
     ! Locals
     integer :: ik, new_kern_count
     integer(c_intptr_t), target :: prog
@@ -112,7 +113,8 @@ contains
     end if
 
     ! Get a program object containing all of our kernels
-    prog = get_program(cl_context, cl_device, cl_version_str, lfilename)
+    prog = get_program(cl_context, cl_device, cl_version_str, lfilename, &
+                       compiler_flags)
 
     new_kern_count = 0
     do ik = 1, nkernels

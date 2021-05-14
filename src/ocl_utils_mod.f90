@@ -176,12 +176,13 @@ contains
   ! '.cl' extension, it will load the source file and compile the program.
   ! If it is not a '.cl' file, it will assume it is a pre-compiled binary
   ! and attempt to link it.
-  function get_program(context, device, version_str, filename) result(prog)
+  function get_program(context, device, version_str, filename, compiler_flags) result(prog)
     integer(c_intptr_t), target :: prog
     integer(c_intptr_t), intent(inout), target :: device, context 
     character(len=CL_UTIL_STR_LEN), intent(in) :: version_str, filename
     ! Locals
     type(c_ptr), target :: psource
+    character(len=*), intent(in), optional :: compiler_flags
     character(len=1024) :: options
     character(len=3) :: extension
     character(len=1, kind=c_char), target :: retinfo(1:1024), c_options(1:1024)
@@ -234,15 +235,23 @@ contains
     endif
     deallocate(buffer)
 
-    ! Build the OpenCL Program
-    options = "" !'-cl-opt-disable' ! compiler options
+    ! Prepare compiling options
+    options = ""
+    if (present(compiler_flags)) then
+        options = trim(options) // trim(compiler_flags)
+    endif
+    ! Convert the options to a NULL-terminated C-char string
     irec = len(trim(options))
     do i=1, irec
        c_options(i)=options(i:i)
     enddo
     c_options(irec+1) = C_NULL_CHAR
+
+    ! Build the OpenCL Program
     ierr=clBuildProgram(prog, 0, C_NULL_PTR, C_LOC(c_options), &
                         C_NULL_FUNPTR,C_NULL_PTR)
+
+    ! If compilation didn't succeed, print compilation errors and terminate
     if (ierr.ne.CL_SUCCESS) then
         print *, 'clBuildProgram', ierr
         print '(a)', ' *** Options *** '
