@@ -47,7 +47,7 @@ program vadd
   deviceC = create_rw_buffer(arraysize)
 
   ! Load the kernel and set up the arguments
-  call add_kernels(1, "vadd", FILENAME)
+  call add_kernels(1, "vadd", FILENAME, compiler_flags="-cl-fast-relaxed-math")
   vaddkernel = get_kernel_by_name("vadd")
   ierr = clSetKernelArg(vaddkernel, 0, C_SIZEOF(deviceB), C_LOC(deviceB))
   call check_status('clSetKernelArg: arg 1 of vadd', ierr)
