@@ -109,262 +109,262 @@ module clfortran
     integer(c_int32_t), parameter :: CL_NON_BLOCKING                              = CL_FALSE
 
     ! cl_platform_info
-    integer(c_int32_t), parameter :: CL_PLATFORM_PROFILE                        = Z'0900'
-    integer(c_int32_t), parameter :: CL_PLATFORM_VERSION                        = Z'0901'
-    integer(c_int32_t), parameter :: CL_PLATFORM_NAME                           = Z'0902'
-    integer(c_int32_t), parameter :: CL_PLATFORM_VENDOR                         = Z'0903'
-    integer(c_int32_t), parameter :: CL_PLATFORM_EXTENSIONS                     = Z'0904'
+    integer(c_int32_t), parameter :: CL_PLATFORM_PROFILE                        = int(Z'0900', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PLATFORM_VERSION                        = int(Z'0901', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PLATFORM_NAME                           = int(Z'0902', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PLATFORM_VENDOR                         = int(Z'0903', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PLATFORM_EXTENSIONS                     = int(Z'0904', kind=c_int32_t)
 
     ! cl_device_type - bitfield
-    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_DEFAULT                     = b'00001'
-    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_CPU                         = b'00010'
-    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_GPU                         = b'00100'
-    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_ACCELERATOR                 = b'01000'
-    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_CUSTOM                      = b'10000'
-    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_ALL                         = Z'FFFFFFFF'
+    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_DEFAULT                     = int(b'00001', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_CPU                         = int(b'00010', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_GPU                         = int(b'00100', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_ACCELERATOR                 = int(b'01000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_CUSTOM                      = int(b'10000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_DEVICE_TYPE_ALL                         = int(Z'FFFFFFFF', kind=c_int64_t)
 
     ! cl_device_info
-    integer(c_int32_t), parameter :: CL_DEVICE_TYPE                             = Z'1000'
-    integer(c_int32_t), parameter :: CL_DEVICE_VENDOR_ID                        = Z'1001'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_COMPUTE_UNITS                = Z'1002'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS         = Z'1003'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_WORK_GROUP_SIZE              = Z'1004'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_WORK_ITEM_SIZES              = Z'1005'
-    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR      = Z'1006'
-    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_SHORT     = Z'1007'
-    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_INT       = Z'1008'
-    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_LONG      = Z'1009'
-    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT     = Z'100A'
-    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_DOUBLE    = Z'100B'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_CLOCK_FREQUENCY              = Z'100C'
-    integer(c_int32_t), parameter :: CL_DEVICE_ADDRESS_BITS                     = Z'100D'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_READ_IMAGE_ARGS              = Z'100E'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_WRITE_IMAGE_ARGS             = Z'100F'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_MEM_ALLOC_SIZE               = Z'1010'
-    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE2D_MAX_WIDTH                = Z'1011'
-    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE2D_MAX_HEIGHT               = Z'1012'
-    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE3D_MAX_WIDTH                = Z'1013'
-    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE3D_MAX_HEIGHT               = Z'1014'
-    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE3D_MAX_DEPTH                = Z'1015'
-    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE_SUPPORT                    = Z'1016'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_PARAMETER_SIZE               = Z'1017'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_SAMPLERS                     = Z'1018'
-    integer(c_int32_t), parameter :: CL_DEVICE_MEM_BASE_ADDR_ALIGN              = Z'1019'
-    integer(c_int32_t), parameter :: CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE         = Z'101A'
-    integer(c_int32_t), parameter :: CL_DEVICE_SINGLE_FP_CONFIG                 = Z'101B'
-    integer(c_int32_t), parameter :: CL_DEVICE_GLOBAL_MEM_CACHE_TYPE            = Z'101C'
-    integer(c_int32_t), parameter :: CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE        = Z'101D'
-    integer(c_int32_t), parameter :: CL_DEVICE_GLOBAL_MEM_CACHE_SIZE            = Z'101E'
-    integer(c_int32_t), parameter :: CL_DEVICE_GLOBAL_MEM_SIZE                  = Z'101F'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE         = Z'1020'
-    integer(c_int32_t), parameter :: CL_DEVICE_MAX_CONSTANT_ARGS                = Z'1021'
-    integer(c_int32_t), parameter :: CL_DEVICE_LOCAL_MEM_TYPE                   = Z'1022'
-    integer(c_int32_t), parameter :: CL_DEVICE_LOCAL_MEM_SIZE                   = Z'1023'
-    integer(c_int32_t), parameter :: CL_DEVICE_ERROR_CORRECTION_SUPPORT         = Z'1024'
-    integer(c_int32_t), parameter :: CL_DEVICE_PROFILING_TIMER_RESOLUTION       = Z'1025'
-    integer(c_int32_t), parameter :: CL_DEVICE_ENDIAN_LITTLE                    = Z'1026'
-    integer(c_int32_t), parameter :: CL_DEVICE_AVAILABLE                        = Z'1027'
-    integer(c_int32_t), parameter :: CL_DEVICE_COMPILER_AVAILABLE               = Z'1028'
-    integer(c_int32_t), parameter :: CL_DEVICE_EXECUTION_CAPABILITIES           = Z'1029'
-    integer(c_int32_t), parameter :: CL_DEVICE_QUEUE_PROPERTIES                 = Z'102A'
-    integer(c_int32_t), parameter :: CL_DEVICE_NAME                             = Z'102B'
-    integer(c_int32_t), parameter :: CL_DEVICE_VENDOR                           = Z'102C'
-    integer(c_int32_t), parameter :: CL_DRIVER_VERSION                          = Z'102D'
-    integer(c_int32_t), parameter :: CL_DEVICE_PROFILE                          = Z'102E'
-    integer(c_int32_t), parameter :: CL_DEVICE_VERSION                          = Z'102F'
-    integer(c_int32_t), parameter :: CL_DEVICE_EXTENSIONS                       = Z'1030'
-    integer(c_int32_t), parameter :: CL_DEVICE_PLATFORM                         = Z'1031'
-    integer(c_int32_t), parameter :: CL_DEVICE_DOUBLE_FP_CONFIG                 = Z'1032'
+    integer(c_int32_t), parameter :: CL_DEVICE_TYPE                             = int(Z'1000', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_VENDOR_ID                        = int(Z'1001', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_COMPUTE_UNITS                = int(Z'1002', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_WORK_ITEM_DIMENSIONS         = int(Z'1003', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_WORK_GROUP_SIZE              = int(Z'1004', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_WORK_ITEM_SIZES              = int(Z'1005', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_CHAR      = int(Z'1006', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_SHORT     = int(Z'1007', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_INT       = int(Z'1008', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_LONG      = int(Z'1009', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_FLOAT     = int(Z'100A', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_DOUBLE    = int(Z'100B', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_CLOCK_FREQUENCY              = int(Z'100C', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_ADDRESS_BITS                     = int(Z'100D', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_READ_IMAGE_ARGS              = int(Z'100E', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_WRITE_IMAGE_ARGS             = int(Z'100F', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_MEM_ALLOC_SIZE               = int(Z'1010', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE2D_MAX_WIDTH                = int(Z'1011', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE2D_MAX_HEIGHT               = int(Z'1012', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE3D_MAX_WIDTH                = int(Z'1013', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE3D_MAX_HEIGHT               = int(Z'1014', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE3D_MAX_DEPTH                = int(Z'1015', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE_SUPPORT                    = int(Z'1016', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_PARAMETER_SIZE               = int(Z'1017', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_SAMPLERS                     = int(Z'1018', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MEM_BASE_ADDR_ALIGN              = int(Z'1019', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MIN_DATA_TYPE_ALIGN_SIZE         = int(Z'101A', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_SINGLE_FP_CONFIG                 = int(Z'101B', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_GLOBAL_MEM_CACHE_TYPE            = int(Z'101C', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_GLOBAL_MEM_CACHELINE_SIZE        = int(Z'101D', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_GLOBAL_MEM_CACHE_SIZE            = int(Z'101E', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_GLOBAL_MEM_SIZE                  = int(Z'101F', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_CONSTANT_BUFFER_SIZE         = int(Z'1020', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_MAX_CONSTANT_ARGS                = int(Z'1021', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_LOCAL_MEM_TYPE                   = int(Z'1022', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_LOCAL_MEM_SIZE                   = int(Z'1023', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_ERROR_CORRECTION_SUPPORT         = int(Z'1024', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PROFILING_TIMER_RESOLUTION       = int(Z'1025', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_ENDIAN_LITTLE                    = int(Z'1026', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_AVAILABLE                        = int(Z'1027', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_COMPILER_AVAILABLE               = int(Z'1028', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_EXECUTION_CAPABILITIES           = int(Z'1029', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_QUEUE_PROPERTIES                 = int(Z'102A', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_NAME                             = int(Z'102B', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_VENDOR                           = int(Z'102C', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DRIVER_VERSION                          = int(Z'102D', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PROFILE                          = int(Z'102E', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_VERSION                          = int(Z'102F', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_EXTENSIONS                       = int(Z'1030', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PLATFORM                         = int(Z'1031', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_DOUBLE_FP_CONFIG                 = int(Z'1032', kind=c_int32_t)
     ! 0x1033 reserved for CL_DEVICE_HALF_FP_CONFIG
-    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_HALF      = Z'1034'
-    integer(c_int32_t), parameter :: CL_DEVICE_HOST_UNIFIED_MEMORY              = Z'1035'
-    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_CHAR         = Z'1036'
-    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_SHORT        = Z'1037'
-    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_INT          = Z'1038'
-    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_LONG         = Z'1039'
-    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_FLOAT        = Z'103A'
-    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_DOUBLE       = Z'103B'
-    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_HALF         = Z'103C'
-    integer(c_int32_t), parameter :: CL_DEVICE_OPENCL_C_VERSION                 = Z'103D'
-    integer(c_int32_t), parameter :: CL_DEVICE_LINKER_AVAILABLE                 = Z'103E'
-    integer(c_int32_t), parameter :: CL_DEVICE_BUILT_IN_KERNELS                 = Z'103F'
-    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE_MAX_BUFFER_SIZE            = Z'1040'
-    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE_MAX_ARRAY_SIZE             = Z'1041'
-    integer(c_int32_t), parameter :: CL_DEVICE_PARENT_DEVICE                    = Z'1042'
-    integer(c_int32_t), parameter :: CL_DEVICE_PARTITION_MAX_SUB_DEVICES        = Z'1043'
-    integer(c_int32_t), parameter :: CL_DEVICE_PARTITION_PROPERTIES             = Z'1044'
-    integer(c_int32_t), parameter :: CL_DEVICE_PARTITION_AFFINITY_DOMAIN        = Z'1045'
-    integer(c_int32_t), parameter :: CL_DEVICE_PARTITION_TYPE                   = Z'1046'
-    integer(c_int32_t), parameter :: CL_DEVICE_REFERENCE_COUNT                  = Z'1047'
-    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_INTEROP_USER_SYNC      = Z'1048'
-    integer(c_int32_t), parameter :: CL_DEVICE_PRINTF_BUFFER_SIZE               = Z'1049'
+    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_VECTOR_WIDTH_HALF      = int(Z'1034', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_HOST_UNIFIED_MEMORY              = int(Z'1035', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_CHAR         = int(Z'1036', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_SHORT        = int(Z'1037', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_INT          = int(Z'1038', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_LONG         = int(Z'1039', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_FLOAT        = int(Z'103A', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_DOUBLE       = int(Z'103B', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_NATIVE_VECTOR_WIDTH_HALF         = int(Z'103C', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_OPENCL_C_VERSION                 = int(Z'103D', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_LINKER_AVAILABLE                 = int(Z'103E', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_BUILT_IN_KERNELS                 = int(Z'103F', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE_MAX_BUFFER_SIZE            = int(Z'1040', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_IMAGE_MAX_ARRAY_SIZE             = int(Z'1041', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PARENT_DEVICE                    = int(Z'1042', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PARTITION_MAX_SUB_DEVICES        = int(Z'1043', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PARTITION_PROPERTIES             = int(Z'1044', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PARTITION_AFFINITY_DOMAIN        = int(Z'1045', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PARTITION_TYPE                   = int(Z'1046', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_REFERENCE_COUNT                  = int(Z'1047', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PREFERRED_INTEROP_USER_SYNC      = int(Z'1048', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEVICE_PRINTF_BUFFER_SIZE               = int(Z'1049', kind=c_int32_t)
 
     ! cl_device_fp_config - bitfield
-    integer(c_int64_t), parameter :: CL_FP_DENORM                               = b'00000001'
-    integer(c_int64_t), parameter :: CL_FP_INF_NAN                              = b'00000010'
-    integer(c_int64_t), parameter :: CL_FP_ROUND_TO_NEAREST                     = b'00000100'
-    integer(c_int64_t), parameter :: CL_FP_ROUND_TO_ZERO                        = b'00001000'
-    integer(c_int64_t), parameter :: CL_FP_ROUND_TO_INF                         = b'00010000'
-    integer(c_int64_t), parameter :: CL_FP_FMA                                  = b'00100000'
-    integer(c_int64_t), parameter :: CL_FP_SOFT_FLOAT                           = b'01000000'
-    integer(c_int64_t), parameter :: CL_FP_CORRECTLY_ROUNDED_DIVIDE_SQRT        = b'10000000'
+    integer(c_int64_t), parameter :: CL_FP_DENORM                               = int(b'00000001', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_FP_INF_NAN                              = int(b'00000010', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_FP_ROUND_TO_NEAREST                     = int(b'00000100', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_FP_ROUND_TO_ZERO                        = int(b'00001000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_FP_ROUND_TO_INF                         = int(b'00010000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_FP_FMA                                  = int(b'00100000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_FP_SOFT_FLOAT                           = int(b'01000000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_FP_CORRECTLY_ROUNDED_DIVIDE_SQRT        = int(b'10000000', kind=c_int64_t)
 
     ! cl_device_mem_cache_type
-    integer(c_int32_t), parameter :: CL_NONE                                    = Z'0'
-    integer(c_int32_t), parameter :: CL_READ_ONLY_CACHE                         = Z'1'
-    integer(c_int32_t), parameter :: CL_READ_WRITE_CACHE                        = Z'2'
+    integer(c_int32_t), parameter :: CL_NONE                                    = int(Z'0', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_READ_ONLY_CACHE                         = int(Z'1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_READ_WRITE_CACHE                        = int(Z'2', kind=c_int32_t)
 
     ! cl_device_local_mem_type
-    integer(c_int32_t), parameter :: CL_LOCAL                                   = Z'1'
-    integer(c_int32_t), parameter :: CL_GLOBAL                                  = Z'2'
+    integer(c_int32_t), parameter :: CL_LOCAL                                   = int(Z'1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_GLOBAL                                  = int(Z'2', kind=c_int32_t)
 
     ! cl_device_exec_capabilities - bitfield
-    integer(c_int64_t), parameter :: CL_EXEC_KERNEL                             = b'01'
-    integer(c_int64_t), parameter :: CL_EXEC_NATIVE_KERNEL                      = b'10'
+    integer(c_int64_t), parameter :: CL_EXEC_KERNEL                             = int(b'01', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_EXEC_NATIVE_KERNEL                      = int(b'10', kind=c_int64_t)
 
     ! cl_command_queue_properties - bitfield
-    integer(c_int64_t), parameter :: CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE     = b'01'
-    integer(c_int64_t), parameter :: CL_QUEUE_PROFILING_ENABLE                  = b'10'
+    integer(c_int64_t), parameter :: CL_QUEUE_OUT_OF_ORDER_EXEC_MODE_ENABLE     = int(b'01', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_QUEUE_PROFILING_ENABLE                  = int(b'10', kind=c_int64_t)
 
     ! cl_context_info
-    integer(c_int32_t), parameter :: CL_CONTEXT_REFERENCE_COUNT                 = Z'1080'
-    integer(c_int32_t), parameter :: CL_CONTEXT_DEVICES                         = Z'1081'
-    integer(c_int32_t), parameter :: CL_CONTEXT_PROPERTIES                      = Z'1082'
-    integer(c_int32_t), parameter :: CL_CONTEXT_NUM_DEVICES                     = Z'1083'
+    integer(c_int32_t), parameter :: CL_CONTEXT_REFERENCE_COUNT                 = int(Z'1080', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_CONTEXT_DEVICES                         = int(Z'1081', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_CONTEXT_PROPERTIES                      = int(Z'1082', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_CONTEXT_NUM_DEVICES                     = int(Z'1083', kind=c_int32_t)
 
     ! cl_context_properties type(c_ptr)
-    integer(c_intptr_t), parameter :: CL_CONTEXT_PLATFORM                         = Z'1084'
-    integer(c_intptr_t), parameter :: CL_CONTEXT_INTEROP_USER_SYNC                = Z'1085'
+    integer(c_intptr_t), parameter :: CL_CONTEXT_PLATFORM                       = int(Z'1084', kind=c_intptr_t)
+    integer(c_intptr_t), parameter :: CL_CONTEXT_INTEROP_USER_SYNC              = int(Z'1085', kind=c_intptr_t)
 
     ! cl_command_queue_info
-    integer(c_int32_t), parameter :: CL_QUEUE_CONTEXT                           = Z'1090'
-    integer(c_int32_t), parameter :: CL_QUEUE_DEVICE                            = Z'1091'
-    integer(c_int32_t), parameter :: CL_QUEUE_REFERENCE_COUNT                   = Z'1092'
-    integer(c_int32_t), parameter :: CL_QUEUE_PROPERTIES                        = Z'1093'
+    integer(c_int32_t), parameter :: CL_QUEUE_CONTEXT                           = int(Z'1090', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_QUEUE_DEVICE                            = int(Z'1091', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_QUEUE_REFERENCE_COUNT                   = int(Z'1092', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_QUEUE_PROPERTIES                        = int(Z'1093', kind=c_int32_t)
 
     ! cl_mem_flags - bitfield (int64)
-    integer(c_int64_t), parameter :: CL_MEM_READ_WRITE                          = b'0000000001'
-    integer(c_int64_t), parameter :: CL_MEM_WRITE_ONLY                          = b'0000000010'
-    integer(c_int64_t), parameter :: CL_MEM_READ_ONLY                           = b'0000000100'
-    integer(c_int64_t), parameter :: CL_MEM_USE_HOST_PTR                        = b'0000001000'
-    integer(c_int64_t), parameter :: CL_MEM_ALLOC_HOST_PTR                      = b'0000010000'
-    integer(c_int64_t), parameter :: CL_MEM_COPY_HOST_PTR                       = b'0000100000'
-    !integer(c_int64_t), parameter :: reserved                                  = b'0001000000'
-    integer(c_int64_t), parameter :: CL_MEM_HOST_WRITE_ONLY                     = b'0010000000'
-    integer(c_int64_t), parameter :: CL_MEM_HOST_READ_ONLY                      = b'0100000000'
-    integer(c_int64_t), parameter :: CL_MEM_HOST_NO_ACCESS                      = b'1000000000'
+    integer(c_int64_t), parameter :: CL_MEM_READ_WRITE                          = int(b'0000000001', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_MEM_WRITE_ONLY                          = int(b'0000000010', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_MEM_READ_ONLY                           = int(b'0000000100', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_MEM_USE_HOST_PTR                        = int(b'0000001000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_MEM_ALLOC_HOST_PTR                      = int(b'0000010000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_MEM_COPY_HOST_PTR                       = int(b'0000100000', kind=c_int64_t)
+    !integer(c_int64_t), parameter :: reserved                                  = int(b'0001000000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_MEM_HOST_WRITE_ONLY                     = int(b'0010000000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_MEM_HOST_READ_ONLY                      = int(b'0100000000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_MEM_HOST_NO_ACCESS                      = int(b'1000000000', kind=c_int64_t)
 
     ! cl_buffer_create_type
-    integer(c_int32_t), parameter :: CL_BUFFER_CREATE_TYPE_REGION               = Z'1220'
+    integer(c_int32_t), parameter :: CL_BUFFER_CREATE_TYPE_REGION               = int(Z'1220', kind=c_int32_t)
 
     ! cl_channel_order
-    integer(c_int32_t), parameter :: CL_R                                       = Z'10B0'
-    integer(c_int32_t), parameter :: CL_A                                       = Z'10B1'
-    integer(c_int32_t), parameter :: CL_RG                                      = Z'10B2'
-    integer(c_int32_t), parameter :: CL_RA                                      = Z'10B3'
-    integer(c_int32_t), parameter :: CL_RGB                                     = Z'10B4'
-    integer(c_int32_t), parameter :: CL_RGBA                                    = Z'10B5'
-    integer(c_int32_t), parameter :: CL_BGRA                                    = Z'10B6'
-    integer(c_int32_t), parameter :: CL_ARGB                                    = Z'10B7'
-    integer(c_int32_t), parameter :: CL_INTENSITY                               = Z'10B8'
-    integer(c_int32_t), parameter :: CL_LUMINANCE                               = Z'10B9'
-    integer(c_int32_t), parameter :: CL_Rx                                      = Z'10BA'
-    integer(c_int32_t), parameter :: CL_RGx                                     = Z'10BB'
-    integer(c_int32_t), parameter :: CL_RGBx                                    = Z'10BC'
-    integer(c_int32_t), parameter :: CL_DEPTH                                   = Z'10BD'
-    integer(c_int32_t), parameter :: CL_DEPTH_STENCIL                           = Z'10BE'
+    integer(c_int32_t), parameter :: CL_R                                       = int(Z'10B0', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_A                                       = int(Z'10B1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_RG                                      = int(Z'10B2', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_RA                                      = int(Z'10B3', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_RGB                                     = int(Z'10B4', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_RGBA                                    = int(Z'10B5', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_BGRA                                    = int(Z'10B6', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_ARGB                                    = int(Z'10B7', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_INTENSITY                               = int(Z'10B8', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_LUMINANCE                               = int(Z'10B9', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_Rx                                      = int(Z'10BA', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_RGx                                     = int(Z'10BB', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_RGBx                                    = int(Z'10BC', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEPTH                                   = int(Z'10BD', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_DEPTH_STENCIL                           = int(Z'10BE', kind=c_int32_t)
 
     ! cl_channel_type
-    integer(c_int32_t), parameter :: CL_SNORM_INT8                              = Z'10D0'
-    integer(c_int32_t), parameter :: CL_SNORM_INT16                             = Z'10D1'
-    integer(c_int32_t), parameter :: CL_UNORM_INT8                              = Z'10D2'
-    integer(c_int32_t), parameter :: CL_UNORM_INT16                             = Z'10D3'
-    integer(c_int32_t), parameter :: CL_UNORM_SHORT_565                         = Z'10D4'
-    integer(c_int32_t), parameter :: CL_UNORM_SHORT_555                         = Z'10D5'
-    integer(c_int32_t), parameter :: CL_UNORM_INT_101010                        = Z'10D6'
-    integer(c_int32_t), parameter :: CL_SIGNED_INT8                             = Z'10D7'
-    integer(c_int32_t), parameter :: CL_SIGNED_INT16                            = Z'10D8'
-    integer(c_int32_t), parameter :: CL_SIGNED_INT32                            = Z'10D9'
-    integer(c_int32_t), parameter :: CL_UNSIGNED_INT8                           = Z'10DA'
-    integer(c_int32_t), parameter :: CL_UNSIGNED_INT16                          = Z'10DB'
-    integer(c_int32_t), parameter :: CL_UNSIGNED_INT32                          = Z'10DC'
-    integer(c_int32_t), parameter :: CL_HALF_FLOAT                              = Z'10DD'
-    integer(c_int32_t), parameter :: CL_FLOAT                                   = Z'10DE'
-    integer(c_int32_t), parameter :: CL_UNORM_INT24                             = Z'10DF'
+    integer(c_int32_t), parameter :: CL_SNORM_INT8                              = int(Z'10D0', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_SNORM_INT16                             = int(Z'10D1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNORM_INT8                              = int(Z'10D2', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNORM_INT16                             = int(Z'10D3', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNORM_SHORT_565                         = int(Z'10D4', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNORM_SHORT_555                         = int(Z'10D5', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNORM_INT_101010                        = int(Z'10D6', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_SIGNED_INT8                             = int(Z'10D7', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_SIGNED_INT16                            = int(Z'10D8', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_SIGNED_INT32                            = int(Z'10D9', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNSIGNED_INT8                           = int(Z'10DA', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNSIGNED_INT16                          = int(Z'10DB', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNSIGNED_INT32                          = int(Z'10DC', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_HALF_FLOAT                              = int(Z'10DD', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_FLOAT                                   = int(Z'10DE', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_UNORM_INT24                             = int(Z'10DF', kind=c_int32_t)
 
     ! cl_mem_object_type
-    integer(c_int32_t), parameter :: CL_MEM_OBJECT_BUFFER                       = Z'10F0'
-    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE2D                      = Z'10F1'
-    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE3D                      = Z'10F2'
-    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE2D_ARRAY                = Z'10F3'
-    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE1D                      = Z'10F4'
-    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE1D_ARRAY                = Z'10F5'
-    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE1D_BUFFER               = Z'10F6'
+    integer(c_int32_t), parameter :: CL_MEM_OBJECT_BUFFER                       = int(Z'10F0', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE2D                      = int(Z'10F1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE3D                      = int(Z'10F2', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE2D_ARRAY                = int(Z'10F3', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE1D                      = int(Z'10F4', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE1D_ARRAY                = int(Z'10F5', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_OBJECT_IMAGE1D_BUFFER               = int(Z'10F6', kind=c_int32_t)
     
     ! cl_mem_info
-    integer(c_int32_t), parameter :: CL_MEM_TYPE                                = Z'1100'
-    integer(c_int32_t), parameter :: CL_MEM_FLAGS                               = Z'1101'
-    integer(c_int32_t), parameter :: CL_MEM_SIZE                                = Z'1102'
-    integer(c_int32_t), parameter :: CL_MEM_HOST_PTR                            = Z'1103'
-    integer(c_int32_t), parameter :: CL_MEM_MAP_COUNT                           = Z'1104'
-    integer(c_int32_t), parameter :: CL_MEM_REFERENCE_COUNT                     = Z'1105'
-    integer(c_int32_t), parameter :: CL_MEM_CONTEXT                             = Z'1106'
-    integer(c_int32_t), parameter :: CL_MEM_ASSOCIATED_MEMOBJECT                = Z'1107'
-    integer(c_int32_t), parameter :: CL_MEM_OFFSET                              = Z'1108'
+    integer(c_int32_t), parameter :: CL_MEM_TYPE                                = int(Z'1100', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_FLAGS                               = int(Z'1101', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_SIZE                                = int(Z'1102', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_HOST_PTR                            = int(Z'1103', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_MAP_COUNT                           = int(Z'1104', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_REFERENCE_COUNT                     = int(Z'1105', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_CONTEXT                             = int(Z'1106', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_ASSOCIATED_MEMOBJECT                = int(Z'1107', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_MEM_OFFSET                              = int(Z'1108', kind=c_int32_t)
 
     ! cl_image_info - Note that INFO was added to resolve naming conflicts.
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_FORMAT                       = Z'1110'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_ELEMENT_SIZE                 = Z'1111'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_ROW_PITCH                    = Z'1112'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_SLICE_PITCH                  = Z'1113'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_WIDTH                        = Z'1114'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_HEIGHT                       = Z'1115'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_DEPTH                        = Z'1116'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_ARRAY_SIZE                   = Z'1117'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_BUFFER                       = Z'1118'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_NUM_MIP_LEVELS               = Z'1119'
-    integer(c_int32_t), parameter :: CL_IMAGE_INFO_NUM_SAMPLES                  = Z'111A'
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_FORMAT                       = int(Z'1110', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_ELEMENT_SIZE                 = int(Z'1111', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_ROW_PITCH                    = int(Z'1112', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_SLICE_PITCH                  = int(Z'1113', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_WIDTH                        = int(Z'1114', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_HEIGHT                       = int(Z'1115', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_DEPTH                        = int(Z'1116', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_ARRAY_SIZE                   = int(Z'1117', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_BUFFER                       = int(Z'1118', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_NUM_MIP_LEVELS               = int(Z'1119', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_IMAGE_INFO_NUM_SAMPLES                  = int(Z'111A', kind=c_int32_t)
     
     ! cl_addressing_mode
-    integer(c_int32_t), parameter :: CL_ADDRESS_NONE                            = Z'1130'
-    integer(c_int32_t), parameter :: CL_ADDRESS_CLAMP_TO_EDGE                   = Z'1131'
-    integer(c_int32_t), parameter :: CL_ADDRESS_CLAMP                           = Z'1132'
-    integer(c_int32_t), parameter :: CL_ADDRESS_REPEAT                          = Z'1133'
-    integer(c_int32_t), parameter :: CL_ADDRESS_MIRRORED_REPEAT                 = Z'1134'
+    integer(c_int32_t), parameter :: CL_ADDRESS_NONE                            = int(Z'1130', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_ADDRESS_CLAMP_TO_EDGE                   = int(Z'1131', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_ADDRESS_CLAMP                           = int(Z'1132', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_ADDRESS_REPEAT                          = int(Z'1133', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_ADDRESS_MIRRORED_REPEAT                 = int(Z'1134', kind=c_int32_t)
 
     ! cl_filter_mode
-    integer(c_int32_t), parameter :: CL_FILTER_NEAREST                          = Z'1140'
-    integer(c_int32_t), parameter :: CL_FILTER_LINEAR                           = Z'1141'
+    integer(c_int32_t), parameter :: CL_FILTER_NEAREST                          = int(Z'1140', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_FILTER_LINEAR                           = int(Z'1141', kind=c_int32_t)
 
     ! cl_sampler_info
-    integer(c_int32_t), parameter :: CL_SAMPLER_REFERENCE_COUNT                 = Z'1150'
-    integer(c_int32_t), parameter :: CL_SAMPLER_CONTEXT                         = Z'1151'
-    integer(c_int32_t), parameter :: CL_SAMPLER_NORMALIZED_COORDS               = Z'1152'
-    integer(c_int32_t), parameter :: CL_SAMPLER_ADDRESSING_MODE                 = Z'1153'
-    integer(c_int32_t), parameter :: CL_SAMPLER_FILTER_MODE                     = Z'1154'
+    integer(c_int32_t), parameter :: CL_SAMPLER_REFERENCE_COUNT                 = int(Z'1150', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_SAMPLER_CONTEXT                         = int(Z'1151', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_SAMPLER_NORMALIZED_COORDS               = int(Z'1152', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_SAMPLER_ADDRESSING_MODE                 = int(Z'1153', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_SAMPLER_FILTER_MODE                     = int(Z'1154', kind=c_int32_t)
     
     ! cl_program_info
-    integer(c_int32_t), parameter :: CL_PROGRAM_REFERENCE_COUNT                 = Z'1160'
-    integer(c_int32_t), parameter :: CL_PROGRAM_CONTEXT                         = Z'1161'
-    integer(c_int32_t), parameter :: CL_PROGRAM_NUM_DEVICES                     = Z'1162'
-    integer(c_int32_t), parameter :: CL_PROGRAM_DEVICES                         = Z'1163'
-    integer(c_int32_t), parameter :: CL_PROGRAM_SOURCE                          = Z'1164'
-    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_SIZES                    = Z'1165'
-    integer(c_int32_t), parameter :: CL_PROGRAM_BINARIES                        = Z'1166'
-    integer(c_int32_t), parameter :: CL_PROGRAM_NUM_KERNELS                     = Z'1167'
-    integer(c_int32_t), parameter :: CL_PROGRAM_KERNEL_NAMES                    = Z'1168'
+    integer(c_int32_t), parameter :: CL_PROGRAM_REFERENCE_COUNT                 = int(Z'1160', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_CONTEXT                         = int(Z'1161', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_NUM_DEVICES                     = int(Z'1162', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_DEVICES                         = int(Z'1163', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_SOURCE                          = int(Z'1164', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_SIZES                    = int(Z'1165', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_BINARIES                        = int(Z'1166', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_NUM_KERNELS                     = int(Z'1167', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_KERNEL_NAMES                    = int(Z'1168', kind=c_int32_t)
 
     ! cl_program_build_info
-    integer(c_int32_t), parameter :: CL_PROGRAM_BUILD_STATUS                    = Z'1181'
-    integer(c_int32_t), parameter :: CL_PROGRAM_BUILD_OPTIONS                   = Z'1182'
-    integer(c_int32_t), parameter :: CL_PROGRAM_BUILD_LOG                       = Z'1183'
-    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE                     = Z'1184'
+    integer(c_int32_t), parameter :: CL_PROGRAM_BUILD_STATUS                    = int(Z'1181', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_BUILD_OPTIONS                   = int(Z'1182', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_BUILD_LOG                       = int(Z'1183', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE                     = int(Z'1184', kind=c_int32_t)
     
     ! cl_program_binary_type
-    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE_NONE                = Z'0'
-    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE_COMPILED_OBJECT     = Z'1'
-    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE_LIBRARY             = Z'2'
-    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE_EXECUTABLE          = Z'4'
+    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE_NONE                = int(Z'0', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE_COMPILED_OBJECT     = int(Z'1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE_LIBRARY             = int(Z'2', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROGRAM_BINARY_TYPE_EXECUTABLE          = int(Z'4', kind=c_int32_t)
 
     ! cl_build_status
     integer(c_int32_t), parameter :: CL_BUILD_SUCCESS                           = 0
@@ -373,58 +373,58 @@ module clfortran
     integer(c_int32_t), parameter :: CL_BUILD_IN_PROGRESS                       = -3
     
     ! cl_kernel_info
-    integer(c_int32_t), parameter :: CL_KERNEL_FUNCTION_NAME                    = Z'1190'
-    integer(c_int32_t), parameter :: CL_KERNEL_NUM_ARGS                         = Z'1191'
-    integer(c_int32_t), parameter :: CL_KERNEL_REFERENCE_COUNT                  = Z'1192'
-    integer(c_int32_t), parameter :: CL_KERNEL_CONTEXT                          = Z'1193'
-    integer(c_int32_t), parameter :: CL_KERNEL_PROGRAM                          = Z'1194'
-    integer(c_int32_t), parameter :: CL_KERNEL_ATTRIBUTES                       = Z'1195'
+    integer(c_int32_t), parameter :: CL_KERNEL_FUNCTION_NAME                    = int(Z'1190', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_NUM_ARGS                         = int(Z'1191', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_REFERENCE_COUNT                  = int(Z'1192', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_CONTEXT                          = int(Z'1193', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_PROGRAM                          = int(Z'1194', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ATTRIBUTES                       = int(Z'1195', kind=c_int32_t)
 
     ! cl_kernel_arg_info
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_QUALIFIER            = Z'1196'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_QUALIFIER             = Z'1197'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_TYPE_NAME                    = Z'1198'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_TYPE_QUALIFIER               = Z'1199'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_NAME                         = Z'119A'
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_QUALIFIER            = int(Z'1196', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_QUALIFIER             = int(Z'1197', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_TYPE_NAME                    = int(Z'1198', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_TYPE_QUALIFIER               = int(Z'1199', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_NAME                         = int(Z'119A', kind=c_int32_t)
 
     ! cl_kernel_arg_address_qualifier
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_GLOBAL               = Z'119B'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_LOCAL                = Z'119C'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_CONSTANT             = Z'119D'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_PRIVATE              = Z'119E'
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_GLOBAL               = int(Z'119B', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_LOCAL                = int(Z'119C', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_CONSTANT             = int(Z'119D', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ADDRESS_PRIVATE              = int(Z'119E', kind=c_int32_t)
 
     ! cl_kernel_arg_access_qualifier
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_READ_ONLY             = Z'11A0'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_WRITE_ONLY            = Z'11A1'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_READ_WRITE            = Z'11A2'
-    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_NONE                  = Z'11A3'
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_READ_ONLY             = int(Z'11A0', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_WRITE_ONLY            = int(Z'11A1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_READ_WRITE            = int(Z'11A2', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_ARG_ACCESS_NONE                  = int(Z'11A3', kind=c_int32_t)
     
     ! cl_kernel_arg_type_qualifer - bitfield (int64)
-    integer(c_int64_t), parameter :: CL_KERNEL_ARG_TYPE_NONE                    = b'000'
-    integer(c_int64_t), parameter :: CL_KERNEL_ARG_TYPE_CONST                   = b'001'
-    integer(c_int64_t), parameter :: CL_KERNEL_ARG_TYPE_RESTRICT                = b'010'
-    integer(c_int64_t), parameter :: CL_KERNEL_ARG_TYPE_VOLATILE                = b'100'
+    integer(c_int64_t), parameter :: CL_KERNEL_ARG_TYPE_NONE                    = int(b'000', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_KERNEL_ARG_TYPE_CONST                   = int(b'001', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_KERNEL_ARG_TYPE_RESTRICT                = int(b'010', kind=c_int64_t)
+    integer(c_int64_t), parameter :: CL_KERNEL_ARG_TYPE_VOLATILE                = int(b'100', kind=c_int64_t)
 
     ! cl_kernel_work_group_info
-    integer(c_int32_t), parameter :: CL_KERNEL_WORK_GROUP_SIZE                  = Z'11B0'
-    integer(c_int32_t), parameter :: CL_KERNEL_COMPILE_WORK_GROUP_SIZE          = Z'11B1'
-    integer(c_int32_t), parameter :: CL_KERNEL_LOCAL_MEM_SIZE                   = Z'11B2'
-    integer(c_int32_t), parameter :: CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE= Z'11B3'
-    integer(c_int32_t), parameter :: CL_KERNEL_PRIVATE_MEM_SIZE                 = Z'11B4'
-    integer(c_int32_t), parameter :: CL_KERNEL_GLOBAL_WORK_SIZE                 = Z'11B5'
+    integer(c_int32_t), parameter :: CL_KERNEL_WORK_GROUP_SIZE                  = int(Z'11B0', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_COMPILE_WORK_GROUP_SIZE          = int(Z'11B1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_LOCAL_MEM_SIZE                   = int(Z'11B2', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE= int(Z'11B3', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_PRIVATE_MEM_SIZE                 = int(Z'11B4', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_KERNEL_GLOBAL_WORK_SIZE                 = int(Z'11B5', kind=c_int32_t)
     
     ! cl_event_info
-    integer(c_int32_t), parameter :: CL_EVENT_COMMAND_QUEUE                     = Z'11D0'
-    integer(c_int32_t), parameter :: CL_EVENT_COMMAND_TYPE                      = Z'11D1'
-    integer(c_int32_t), parameter :: CL_EVENT_REFERENCE_COUNT                   = Z'11D2'
-    integer(c_int32_t), parameter :: CL_EVENT_COMMAND_EXECUTION_STATUS          = Z'11D3'
-    integer(c_int32_t), parameter :: CL_EVENT_CONTEXT                           = Z'11D4'
+    integer(c_int32_t), parameter :: CL_EVENT_COMMAND_QUEUE                     = int(Z'11D0', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_EVENT_COMMAND_TYPE                      = int(Z'11D1', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_EVENT_REFERENCE_COUNT                   = int(Z'11D2', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_EVENT_COMMAND_EXECUTION_STATUS          = int(Z'11D3', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_EVENT_CONTEXT                           = int(Z'11D4', kind=c_int32_t)
     
     ! cl_profiling_info
-    integer(c_int32_t), parameter :: CL_PROFILING_COMMAND_QUEUED                = Z'1280'
-    integer(c_int32_t), parameter :: CL_PROFILING_COMMAND_SUBMIT                = Z'1281'
-    integer(c_int32_t), parameter :: CL_PROFILING_COMMAND_START                 = Z'1282'
-    integer(c_int32_t), parameter :: CL_PROFILING_COMMAND_END                   = Z'1283'
+    integer(c_int32_t), parameter :: CL_PROFILING_COMMAND_QUEUED                = int(Z'1280', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROFILING_COMMAND_SUBMIT                = int(Z'1281', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROFILING_COMMAND_START                 = int(Z'1282', kind=c_int32_t)
+    integer(c_int32_t), parameter :: CL_PROFILING_COMMAND_END                   = int(Z'1283', kind=c_int32_t)
     
     !
     ! Start interfaces.

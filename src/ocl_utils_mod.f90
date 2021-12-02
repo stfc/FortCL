@@ -330,7 +330,8 @@ contains
     ! Locals
     integer :: i
     integer(c_int32_t) :: ierr
-    integer(c_int64_t) :: properties = b'00' ! Start with empty properties
+     ! Start with empty properties
+    integer(c_int64_t) :: properties = INT(b'00', kind=c_int64_t)
 
     if (present(enable_profiling)) then
        if (enable_profiling) then
