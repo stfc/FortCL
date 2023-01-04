@@ -183,9 +183,9 @@ contains
     ! Locals
     type(c_ptr), target :: psource
     character(len=*), intent(in), optional :: compiler_flags
-    character(len=1024) :: options
+    character(len=4096) :: options
     character(len=3) :: extension
-    character(len=1, kind=c_char), target :: retinfo(1:1024), c_options(1:1024)
+    character(len=1, kind=c_char), target :: retinfo(1:4096), c_options(1:4096)
     integer :: i, irec, iallocerr, last_dot
     integer(c_int32_t) :: ierr
     integer, parameter :: iunit=10
@@ -255,12 +255,12 @@ contains
     if (ierr.ne.CL_SUCCESS) then
         print *, 'clBuildProgram', ierr
         print '(a)', ' *** Options *** '
-        print '(1024a)', options(1:min(irec, 1024))
+        print '(4096a)', options(1:min(irec, 4096))
         ierr=clGetProgramBuildInfo(prog, device, CL_PROGRAM_BUILD_LOG, &
                                   sizeof(retinfo), C_LOC(retinfo),iret)
         if (ierr.ne.0) stop 'clGetProgramBuildInfo'
         print '(a)', 'build log start'
-        print '(1024a)', retinfo(1:min(iret, 1024))
+        print '(4096a)', retinfo(1:min(iret, 4096))
         print '(a)', 'build log end'
         stop
     endif
